@@ -1,13 +1,13 @@
 package utar.edu.my;
 
-import java.util.List;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.io.IOException;
 
 public class RouteInfo {
-	private List<Station> stationList = new ArrayList<Station>();
+	private List<Station> stationList = new ArrayList<>();
 	// Station Names
 	private final String[] stationNameList = {"KL Sentral", "Mid Valley", "Subang Jaya", "Shah Alam", "Bangsar", "Kepong Sentral", "Sentul Timur", "Titiwangsa", 
 			"Ampang Park", "KLCC", "Masjid Jamek", "Bandaraya", "Batu Kentonmen", "Rawang", "Sungai Buloh", "Serdang", "Kajang", "Semenyih Sentral", 
@@ -78,7 +78,7 @@ public class RouteInfo {
 		// Invalid Station
 		if (!stationList.contains(originStation) || !stationList.contains(destinationStation)) {
 			throw new IOException();
-		} 
+		}
 		// Same Station
 		else if (originStation.equals(destinationStation)) {
 			throw new IOException();
@@ -91,7 +91,7 @@ public class RouteInfo {
 	// Calculate Shortest Distance Between Stations
 	public Double findRoute(Station previousStation, Station currentStation, Station destination) {
 		Double currentDistance = Double.MAX_VALUE;
-		List<Double> distances = new ArrayList<Double>();
+		List<Double> distances = new ArrayList<>();
 		
 		// Arrived at End Station
 		if (currentStation.equals(destination)) {

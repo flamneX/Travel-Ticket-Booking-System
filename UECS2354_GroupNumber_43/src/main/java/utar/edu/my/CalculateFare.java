@@ -56,22 +56,24 @@ public class CalculateFare {
 		int dayTimeDiscount = discount.dayTimeDiscount(travelDay, travelTime);
 		
 		// Get Discounted Fare by Passenger Type & Quantity
-		if (passengerType.size() != passengerQuantity.size() || passengerType.size() == 0 || passengerQuantity.size() == 0) {
+		if (passengerType.size() != passengerQuantity.size() || passengerType.isEmpty() || passengerQuantity.isEmpty()) {
 			throw new IOException();
 		}
 		else {
-			for (String passenger : passengerType) {
-				for (int i = 0; i < passengerQuantity.size(); i++) {
-					Double passengerFare = fare * (discount.passengerDiscount(travelDistance, passenger)/100);
-					
-					// Add on Discount for Travel Day & Time
-					if (dayTimeDiscount == 2) {
-						discountedFare += passengerFare + 2;
-					}
-					else {
-						discountedFare += passengerFare * (dayTimeDiscount/100);
-					}
-				}
+			// Passenger Type Loop
+			for (int i = 0; i < passengerType.size(); i++) {
+				// Passenger Amount Loop
+            	for (int j = 0; j < passengerQuantity.get(i); j++) {
+            	    Double passengerFare = fare * (discount.passengerDiscount(travelDistance, passengerType.get(i))/100);
+				
+            	    // Add on Discount for Travel Day & Time
+            	    if (dayTimeDiscount == 2) {
+            	        discountedFare += passengerFare + 2;
+            	    }
+            	    else {
+            	        discountedFare += passengerFare * (dayTimeDiscount/100);
+            	    }
+            	}
 			}
 		}
 		return discountedFare;

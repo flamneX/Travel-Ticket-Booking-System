@@ -3,8 +3,8 @@ package utar.edu.my;
 import java.util.HashMap;
 
 public class Station {
-	private String stationName;
-	private HashMap<Station, Double> linkedStations = new HashMap<>();
+	private final String stationName;
+	private final HashMap<Station, Double> linkedStations = new HashMap<>();
 
 	public Station(String stationName) {
 		this.stationName = stationName;

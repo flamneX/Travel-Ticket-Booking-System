@@ -1,13 +1,13 @@
 package utar.edu.my;
 
-import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.List;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class ApplyDiscountSurcharge {
-	private List<String> weekday = new ArrayList<>(Arrays.asList("MON", "TUE", "WED", "THU", "FRI"));
-	private List<String> weekend = new ArrayList<>(Arrays.asList("SAT", "SUN"));
+	private final List<String> weekday = new ArrayList<>(Arrays.asList("MON", "TUE", "WED", "THU", "FRI"));
+	private final List<String> weekend = new ArrayList<>(Arrays.asList("SAT", "SUN"));
 	
 	// Discount Based on Passenger Type
 	public int passengerDiscount(Double travelDistance, String passengerType) throws IOException {
