@@ -1,25 +1,27 @@
 package utar.edu.my;
 
-import java.util.HashMap;
+import java.io.IOException;
+import java.util.List;
 
 public class CalculateFare {
+	RouteInfo route = new RouteInfo();
+	ApplyDiscountSurcharge discount = new ApplyDiscountSurcharge();
 	
-	public CalculateFare() {
-		
+	// Calculate Total Distance Traveled
+	public Double routeDistance(String startStation, String endStation) throws IOException {
+		return route.getRouteDistance(startStation, endStation);
 	}
 	
-	
-	// Calculate Discount Based on Distance Traveled
-	public Double distanceFare(Double distance) {
+	// Calculate Total Fare Based on Distance Traveled
+	public Double totalFare(Double distance) throws IOException {
 		Double fare = 0.0;
 		
-		if (distance < 0) {
-			
-		}
-		else if (distance > 30) {
-			
+		// Invalid Range
+		if (distance < 1 || distance > 30) {
+			throw new IOException();
 		}
 		else {
+			// Loop till Complete
 			do {
 				if (distance > 20) {
 					fare += (distance - 20) * 20;
@@ -45,5 +47,33 @@ public class CalculateFare {
 		}
 		return fare;
 	}
-
+	
+	// Calculate Discount Details
+	public Double discountedFare(Double fare, Double travelDistance, List<String> passengerType, List<Integer> passengerQuantity, String travelDay, String travelTime) throws IOException {
+		Double discountedFare = 0.0;
+		
+		// Get Day Time Discount Details
+		int dayTimeDiscount = discount.dayTimeDiscount(travelDay, travelTime);
+		
+		// Get Discounted Fare by Passenger Type & Quantity
+		if (passengerType.size() != passengerQuantity.size() || passengerType.size() == 0 || passengerQuantity.size() == 0) {
+			throw new IOException();
+		}
+		else {
+			for (String passenger : passengerType) {
+				for (int i = 0; i < passengerQuantity.size(); i++) {
+					Double passengerFare = fare * (discount.passengerDiscount(travelDistance, passenger)/100);
+					
+					// Add on Discount for Travel Day & Time
+					if (dayTimeDiscount == 2) {
+						discountedFare += passengerFare + 2;
+					}
+					else {
+						discountedFare += passengerFare * (dayTimeDiscount/100);
+					}
+				}
+			}
+		}
+		return discountedFare;
+	}
 }

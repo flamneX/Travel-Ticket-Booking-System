@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.io.IOException;
 
 public class RouteInfo {
 	private List<Station> stationList = new ArrayList<Station>();
@@ -54,35 +55,37 @@ public class RouteInfo {
 
 	// Find Start & End Stations
 	// Helper Method for Routing Algorithm
-	public Double getRouteDistance(String origin, String destination) {
+	public Double getRouteDistance(String origin, String destination) throws IOException {
 		Station originStation = null;
 		Station destinationStation = null;
-		boolean error = true;
 		
 		// Search for Start & End Station Details
 		for (Station station : stationList) {
 			// Start Station
-			if (station.getStationName().equals(origin)) {
+			if (station.getStationName().toUpperCase().equals(origin.toUpperCase())) {
 				originStation = station;
 			}
 			// End Station
-			else if (station.getStationName().equals(destination)) {
+			else if (station.getStationName().toUpperCase().equals(destination.toUpperCase())) {
 				destinationStation = station;
 			}
-			// Found Both
+			// Stop the Loop
 			if (originStation != null && destinationStation != null) {
-				error = false;
+				break;
 			}
 		}
 		
-		// Return Error
-		if (error) {
-			return 0.0;
+		// Invalid Station
+		if (!stationList.contains(originStation) || !stationList.contains(destinationStation)) {
+			throw new IOException();
+		} 
+		// Same Station
+		else if (originStation.equals(destinationStation)) {
+			throw new IOException();
 		}
+		
 		// Start Routing
-		else {
-			return findRoute(null, originStation, destinationStation);
-		}
+		return findRoute(null, originStation, destinationStation);
 	}
 	
 	// Calculate Shortest Distance Between Stations
@@ -127,9 +130,11 @@ public class RouteInfo {
 				}
 			}
 			
+			// Return Shortest Distance
 			if (hasRoute) {
 				return currentDistance;
 			}
+			// No Route
 			else {
 				return -1.0;
 			}

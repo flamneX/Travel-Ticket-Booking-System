@@ -6,9 +6,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class FileFunction {
-	// Get Database Directory
 	Path cDirectory = getDirectory();
 
+	// Get Database Directory
 	public Path getDirectory() {
 		Path absPath = Paths.get("").toAbsolutePath();
 		Path directory;

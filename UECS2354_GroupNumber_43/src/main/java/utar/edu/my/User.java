@@ -6,6 +6,7 @@ public class User implements IUser {
 	private String email;
 	private String phoneNo;
 
+	// Constructor
 	public User(String ID, String name, String email, String phoneNo) {
 		this.ID = ID;
 		this.name = name;

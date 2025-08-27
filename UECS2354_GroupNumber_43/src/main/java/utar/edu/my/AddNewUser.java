@@ -9,17 +9,14 @@ import java.nio.file.StandardOpenOption;
 
 public class AddNewUser extends FileFunction {
 	// Write New User to File
-	public void WriteFile(IUser newUser) {
+	public void WriteFile(IUser newUser) throws IOException {
 		// File Path
 		Path userPath = cDirectory.resolve(Paths.get("user.txt"));
 		
 		// Write Data to File
-		try (BufferedWriter userWriter = Files.newBufferedWriter(userPath, StandardOpenOption.CREATE, StandardOpenOption.APPEND)) {
-			userWriter.write(newUser.toString());
-			userWriter.newLine();
-		}
-		catch (IOException e) {
-			System.out.println("Error Writing to File: " + e.getMessage());
-		}
+		BufferedWriter userWriter = Files.newBufferedWriter(userPath, StandardOpenOption.APPEND);
+		userWriter.write(newUser.toString());
+		userWriter.newLine();
+		userWriter.close();
 	}
 }
