@@ -8,7 +8,7 @@ import junitparams.Parameters;
 
 @RunWith(JUnitParamsRunner.class)
 public class ApplyDiscountSurchargeTest {
-	//Initiate Class
+	//Initiate Discount Class
 	ApplyDiscountSurcharge ads = new ApplyDiscountSurcharge();
 	
 	// Passenger Discount
@@ -16,33 +16,33 @@ public class ApplyDiscountSurchargeTest {
 	private Object getValidPassengerDiscountParamsEP() {
 		return new Object[] {
 			// ADULT
-			new Object[] {3.0, "ADULT", 100},
-			new Object[] {8.0, "ADULT", 100},
-			new Object[] {3.0, "adult", 100},
-			new Object[] {8.0, "adult", 100},
+			new Object[] {3.0, "ADULT", 1.0},
+			new Object[] {8.0, "ADULT", 1.0},
+			new Object[] {3.0, "adult", 1.0},
+			new Object[] {8.0, "adult", 1.0},
 			// SENIOR CITIZEN
-			new Object[] {3.0, "SENIOR", 50},
-			new Object[] {8.0, "SENIOR", 50},
-			new Object[] {3.0, "senior", 50},
-			new Object[] {8.0, "senior", 50},
+			new Object[] {3.0, "SENIOR", 0.5},
+			new Object[] {8.0, "SENIOR", 0.5},
+			new Object[] {3.0, "senior", 0.5},
+			new Object[] {8.0, "senior", 0.5},
 			// Student
-			new Object[] {3.0, "STUDENT", 70},
-			new Object[] {8.0, "STUDENT", 70},
-			new Object[] {3.0, "student", 70},
-			new Object[] {8.0, "student", 70},
+			new Object[] {3.0, "STUDENT", 0.7},
+			new Object[] {8.0, "STUDENT", 0.7},
+			new Object[] {3.0, "student", 0.7},
+			new Object[] {8.0, "student", 0.7},
 			// Child
-			new Object[] {3.0, "CHILD", 0},
-			new Object[] {8.0, "CHILD", 50},
-			new Object[] {3.0, "child", 0},
-			new Object[] {8.0, "child", 50},
+			new Object[] {3.0, "CHILD", 0.0},
+			new Object[] {8.0, "CHILD", 0.5},
+			new Object[] {3.0, "child", 0.0},
+			new Object[] {8.0, "child", 0.5},
 		};
 	}
 	
 	@Test
 	@Parameters (method = "getValidPassengerDiscountParamsEP")
-	public void testPassengerDiscountValidValuesEP(double travelDistance, String passengerType, int expectedResult) {
-		int result = ads.passengerDiscount(travelDistance, passengerType);
-		assertEquals(result, expectedResult);
+	public void testPassengerDiscountValidValuesEP(double travelDistance, String passengerType, double expectedResult) {
+		double result = ads.passengerDiscount(travelDistance, passengerType);
+		assertEquals(result, expectedResult, 0.01);
 	}
 	
 	// Invalid Parameters - Equivalent Partitioning (EP)
@@ -67,49 +67,49 @@ public class ApplyDiscountSurchargeTest {
 	private Object getValidPassengerDiscountParamsBVA() {
 		return new Object[] {
 			// ADULT
-			new Object[] {1.0, "ADULT", 100},
-			new Object[] {4.0, "ADULT", 100},
-			new Object[] {5.0, "ADULT", 100},
-			new Object[] {30.0, "ADULT", 100},
-			new Object[] {1.0, "adult", 100},
-			new Object[] {4.0, "adult", 100},
-			new Object[] {5.0, "adult", 100},
-			new Object[] {30.0, "adult", 100},
+			new Object[] {1.0, "ADULT", 1.0},
+			new Object[] {4.0, "ADULT", 1.0},
+			new Object[] {5.0, "ADULT", 1.0},
+			new Object[] {30.0, "ADULT", 1.0},
+			new Object[] {1.0, "adult", 1.0},
+			new Object[] {4.0, "adult", 1.0},
+			new Object[] {5.0, "adult", 1.0},
+			new Object[] {30.0, "adult", 1.0},
 			// SENIOR CITIZEN
-			new Object[] {1.0, "SENIOR", 50},
-			new Object[] {4.0, "SENIOR", 50},
-			new Object[] {5.0, "SENIOR", 50},
-			new Object[] {30.0, "SENIOR", 50},
-			new Object[] {1.0, "senior", 50},
-			new Object[] {4.0, "senior", 50},
-			new Object[] {5.0, "senior", 50},
-			new Object[] {30.0, "senior", 50},
+			new Object[] {1.0, "SENIOR", 0.5},
+			new Object[] {4.0, "SENIOR", 0.5},
+			new Object[] {5.0, "SENIOR", 0.5},
+			new Object[] {30.0, "SENIOR", 0.5},
+			new Object[] {1.0, "senior", 0.5},
+			new Object[] {4.0, "senior", 0.5},
+			new Object[] {5.0, "senior", 0.5},
+			new Object[] {30.0, "senior", 0.5},
 			// Student
-			new Object[] {1.0, "STUDENT", 70},
-			new Object[] {4.0, "STUDENT", 70},
-			new Object[] {5.0, "STUDENT", 70},
-			new Object[] {30.0, "STUDENT", 70},
-			new Object[] {1.0, "student", 70},
-			new Object[] {4.0, "student", 70},
-			new Object[] {5.0, "student", 70},
-			new Object[] {30.0, "student", 70},
+			new Object[] {1.0, "STUDENT", 0.7},
+			new Object[] {4.0, "STUDENT", 0.7},
+			new Object[] {5.0, "STUDENT", 0.7},
+			new Object[] {30.0, "STUDENT", 0.7},
+			new Object[] {1.0, "student", 0.7},
+			new Object[] {4.0, "student", 0.7},
+			new Object[] {5.0, "student", 0.7},
+			new Object[] {30.0, "student", 0.7},
 			// Child
-			new Object[] {1.0, "CHILD", 0},
-			new Object[] {4.0, "CHILD", 0},
-			new Object[] {5.0, "CHILD", 50},
-			new Object[] {30.0, "CHILD", 50},
-			new Object[] {1.0, "child", 0},
-			new Object[] {4.0, "child", 0},
-			new Object[] {5.0, "child", 50},
-			new Object[] {30.0, "child", 50},
+			new Object[] {1.0, "CHILD", 0.0},
+			new Object[] {4.0, "CHILD", 0.0},
+			new Object[] {5.0, "CHILD", 0.5},
+			new Object[] {30.0, "CHILD", 0.5},
+			new Object[] {1.0, "child", 0.0},
+			new Object[] {4.0, "child", 0.0},
+			new Object[] {5.0, "child", 0.5},
+			new Object[] {30.0, "child", 0.5},
 		};
 	}
 	
 	@Test
 	@Parameters (method = "getValidPassengerDiscountParamsBVA")
-	public void testPassengerDiscountValidValuesBVA(double travelDistance, String passengerType, int expectedResult) {
-		int result = ads.passengerDiscount(travelDistance, passengerType);
-		assertEquals(result, expectedResult);
+	public void testPassengerDiscountValidValuesBVA(double travelDistance, String passengerType, double expectedResult) {
+		double result = ads.passengerDiscount(travelDistance, passengerType);
+		assertEquals(result, expectedResult, 0.01);
 	}
 	
 	// Invalid Parameters - Boundary Value Analysis (BVA)

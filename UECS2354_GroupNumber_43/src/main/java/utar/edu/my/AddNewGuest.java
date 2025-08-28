@@ -8,15 +8,27 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 
 public class AddNewGuest extends FileFunction {
+	private final Path guestPath;
+	
+	public AddNewGuest(Path guestPath) {
+		this.guestPath = guestPath;
+	}
+	
 	// Write New User to File
 	public void WriteFile(IUser newGuest) throws IOException {
-		// File Path
-		Path guestPath = cDirectory.resolve(Paths.get("guest.txt"));
+		
+		if (newGuest == null) {
+			throw new IllegalArgumentException("Null Guest");
+		}
+		
 		
 		// Write Data to File
-		BufferedWriter guestWriter = Files.newBufferedWriter(guestPath, StandardOpenOption.APPEND);
-		guestWriter.write(newGuest.toString());
-		guestWriter.newLine();
-		guestWriter.close();
+		try (BufferedWriter guestWriter = Files.newBufferedWriter(guestPath, StandardOpenOption.APPEND)) {
+			guestWriter.write(newGuest.toString());
+			guestWriter.newLine();
+		}
+		catch (IOException e) {
+			throw new IllegalArgumentException("Error Writing To File");
+		}
 	}
 }

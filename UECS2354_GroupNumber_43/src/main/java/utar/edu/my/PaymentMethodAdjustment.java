@@ -1,31 +1,30 @@
 package utar.edu.my;
 
-import java.io.IOException;
-
 public class PaymentMethodAdjustment {
 	
 	// Discount Rates Based on Payment Method
-	public Double paymentAdjustment(double fare, String paymentMethod) throws IOException {
-		Double discountRate;
+	public double paymentAdjustment(PaymentMethod paymentMethod) {
+		double discountRate = 100;
 		
-		// Adjustment for Other Payment Method Names
-		switch (paymentMethod.toUpperCase()) {
-			case "E-WALLET" -> paymentMethod = "EWALLET";
-			case "CREDIT CARD" -> paymentMethod = "CREDIT";
-			case "CREDIRCARD" -> paymentMethod = "CREDIT";
-			case "ONLINE BANKING" -> paymentMethod = "BANKING";
-			case "ONLINEBANKING" -> paymentMethod = "BANKING";
+		// Null Payment Method
+		if (paymentMethod == null) {
+			throw new IllegalArgumentException("Null Payment Method");
 		}
 		
-		// Payment Method Discount/Surcharge
-		switch (paymentMethod.toUpperCase()) {
-			case "EWALLET" -> discountRate = 1.0;
-			case "CREDIT" -> discountRate = 1.05;
-			case "BANKING" -> discountRate = 0.95;
-			default -> throw new IOException();
+		// Payment Method Discount/Sur-charge
+		switch (paymentMethod) {
+			case EWALLET -> discountRate = 1.0;
+			case CREDITCARD -> discountRate = 1.05;
+			case ONLINEBANKING -> discountRate = 0.95;
 		}
 		
 		// Final Fare Amount
-		return fare * discountRate;
+		return discountRate;
 	}
+}
+
+enum PaymentMethod {
+	EWALLET, 
+	CREDITCARD, 
+	ONLINEBANKING
 }

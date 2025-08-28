@@ -9,8 +9,8 @@ public class ApplyDiscountSurcharge {
 	private final List<String> weekend = new ArrayList<>(Arrays.asList("SAT", "SUN"));
 	
 	// Discount Based on Passenger Type
-	public int passengerDiscount(double travelDistance, String passengerType) {
-		int discountRate = 100;
+	public double passengerDiscount(double travelDistance, String passengerType) {
+		double discountRate = 1.0;
 		
 		// Invalid Inputs
 		// Null Passenger
@@ -23,15 +23,15 @@ public class ApplyDiscountSurcharge {
 		
 		// Providing discount Rate Based on Passenger Type 
 		switch (passengerType.toUpperCase()) {
-			case "ADULT" -> discountRate = 100;
-			case "SENIOR" -> discountRate = 50;
-			case "STUDENT" -> discountRate = 70;
+			case "ADULT" -> discountRate = 1.0;
+			case "SENIOR" -> discountRate = 0.5;
+			case "STUDENT" -> discountRate = 0.7;
 			case "CHILD" -> {
 				if (travelDistance >= 5) {
-					discountRate = 50;
+					discountRate = 0.5;
 				}
 				else {
-					discountRate = 0;
+					discountRate = 0.0;
 				}
 			}
 			// Invalid Passenger Type
@@ -43,10 +43,12 @@ public class ApplyDiscountSurcharge {
 	// Confirm Whether Travel Day is Weekend or Weekday
 	public boolean isWeekend(String travelDay) {
 
+		// Invalid Input
 		if (travelDay == null) {
 			throw new IllegalArgumentException("Travel Day is Null");
 		}
 		
+		// Convert Standard Name to Short Form
 		switch (travelDay.toUpperCase()) {
 			case "MONDAY" -> travelDay = "MON";
 			case "TUESDAY" -> travelDay = "TUE";
@@ -58,35 +60,31 @@ public class ApplyDiscountSurcharge {
 			default -> travelDay = travelDay.toUpperCase();
 		}
 		
-		if (weekend.contains(travelDay)) {
+		// Weekend
+		if (weekend.contains(travelDay))
 			return true;
-		}
-		else if (weekday.contains(travelDay)) {
+		// Weekday
+		else if (weekday.contains(travelDay))
 			return false;
-		}
-		else {
+		// Invalid Travel Day
+		else
 			throw new IllegalArgumentException("Invalid Date Format");
-		}
 	}
 	
 	// Discount Based on Day & Time (24 hour Format)
 	public int dayTimeDiscount(boolean weekend, String travelTime) {
 		int discountRate = 100;
 		int time;
-		int minute;
 		
-		// Convert Time to Integer
 		try {
+			// Convert Time to Integer
 			time = Integer.parseInt(travelTime);
+			
 			// Invalid Time Range
 			if (time < 0 || time > 2399)
 				throw new NumberFormatException();
-			else if (time > 100)
-				minute = time%100;
-			else
-				minute = time;
-			
-			if (minute > 60)
+			// Invalid Time Format
+			else if (time%100 > 60)
 				throw new NumberFormatException();
 		}
 		catch (NumberFormatException e) {

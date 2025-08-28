@@ -1,6 +1,5 @@
 package utar.edu.my;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -55,18 +54,24 @@ public class RouteInfo {
 
 	// Find Start & End Stations
 	// Helper Method for Routing Algorithm
-	public Double getRouteDistance(String origin, String destination) throws IOException {
+	public Double getRouteDistance(String startStation, String endStation) {
 		Station originStation = null;
 		Station destinationStation = null;
+		double distance;
+		
+		// Invalid Input
+		if (startStation == null || endStation == null) {
+			throw new IllegalArgumentException("Null Start/End Station");
+		}
 		
 		// Search for Start & End Station Details
 		for (Station station : stationList) {
-			// Start Station
-			if (station.getStationName().toUpperCase().equals(origin.toUpperCase())) {
+			// Get Start Station Details
+			if (station.getStationName().equals(startStation)) {
 				originStation = station;
 			}
-			// End Station
-			else if (station.getStationName().toUpperCase().equals(destination.toUpperCase())) {
+			// Get End Station Details
+			else if (station.getStationName().equals(endStation)) {
 				destinationStation = station;
 			}
 			// Stop the Loop
@@ -77,19 +82,25 @@ public class RouteInfo {
 		
 		// Invalid Station
 		if (!stationList.contains(originStation) || !stationList.contains(destinationStation)) {
-			throw new IOException();
+			throw new IllegalArgumentException("No Stations Found");
 		}
 		// Same Station
 		else if (originStation.equals(destinationStation)) {
-			throw new IOException();
+			throw new IllegalArgumentException("Same Start & End Station");
 		}
 		
 		// Start Routing
-		return findRoute(null, originStation, destinationStation);
+		distance = findRoute(null, originStation, destinationStation);
+		if (distance <= 0) {
+			throw new IllegalArgumentException("No Routes Found");
+		}
+		else {
+			return distance;
+		}
 	}
 	
 	// Calculate Shortest Distance Between Stations
-	public Double findRoute(Station previousStation, Station currentStation, Station destination) {
+	private Double findRoute(Station previousStation, Station currentStation, Station destination) {
 		Double currentDistance = Double.MAX_VALUE;
 		List<Double> distances = new ArrayList<>();
 		

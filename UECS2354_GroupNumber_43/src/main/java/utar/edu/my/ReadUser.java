@@ -2,45 +2,39 @@ package utar.edu.my;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ReadUser extends FileFunction {
-
+	private final BufferedReader userReader;
+	
+	public ReadUser(BufferedReader userReader) {
+		this.userReader = userReader;
+	}
+	
 	// Read User Data from File
-	public List<IUser> readFile(Path filePath) {
+	public List<IUser> readFile() {
 		List<IUser> users = new ArrayList<>();
 		
 		// Retrieve User Details from File
-		try (BufferedReader userReader = Files.newBufferedReader(filePath)) {
+		try (userReader) {
+			
 			String userLine;
 			while((userLine = userReader.readLine()) != null) {
-				
-				// Insert User Details
 				String[] userDetails = userLine.split(";");
-				users.add(new User(userDetails[0], userDetails[1], userDetails[2], userDetails[3]));
+				
+				// Invalid Details
+				if (userDetails.length != 4)
+					throw new IllegalArgumentException("Invalid User Details");
+				// Save Details in List
+				else
+					users.add(new User(userDetails[0], userDetails[1], userDetails[2], userDetails[3]));
 			}
 		}
 		catch (IOException e) {
-			System.out.print("Hi");
+			throw new IllegalArgumentException("Error Reading File");
 		}
 		
 		return users;
-	}
-	
-	// Get Specific User Data by ID
-	public IUser getUser(String userID) throws IOException {
-		List<IUser> userList = readFile(Paths.get("student"));
-		
-		// Search User
-		for (IUser user : userList) {
-			if (((User)user).getID().toUpperCase().equals(userID.toUpperCase())) {
-				return user;
-			}
-		}
-		throw new IOException();
 	}
 }

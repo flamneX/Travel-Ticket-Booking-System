@@ -37,9 +37,4 @@ public class Booking {
 	public Double getDiscountedFare(Double totalFare, Double travelDistance) throws IOException {
 		return calculate.discountedFare(totalFare, travelDistance, passengerType, passengerQuantity, travelDay, travelTime);
 	}
-	
-	// Get Payment Method Adjustments
-	public Double makePayment(Double discountedFare) throws IOException {
-		return new PaymentMethodAdjustment().paymentAdjustment(discountedFare, paymentMethod);
-	}
 }

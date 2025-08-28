@@ -55,4 +55,20 @@ public class User implements IUser {
 	public String toString() {
 		return ID + ";" + name + ";" + email + ";" + phoneNo;
 	}
+	
+	@Override
+	public boolean equals(Object o) {
+        if (this == o) 
+        	return true;
+        if (o == null || getClass() != o.getClass()) 
+        	return false;
+        User otherUser = (User) o;
+        
+        return toString().equals(otherUser.toString());
+    }
+
+    @Override
+    public int hashCode() {
+        return ID != null ? ID.hashCode() : 0;
+    }
 }
