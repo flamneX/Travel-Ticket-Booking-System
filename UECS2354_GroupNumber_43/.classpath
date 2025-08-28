@@ -10,5 +10,8 @@
 	<classpathentry kind="lib" path="C:/jars/JUnitParams-1.0.2.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="C:/jars/mockito-core-4.4.0.jar"/>
+	<classpathentry kind="lib" path="C:/jars/byte-buddy-1.12.8.jar"/>
+	<classpathentry kind="lib" path="C:/jars/byte-buddy-agent-1.12.8.jar"/>
+	<classpathentry kind="lib" path="C:/jars/objenesis-3.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

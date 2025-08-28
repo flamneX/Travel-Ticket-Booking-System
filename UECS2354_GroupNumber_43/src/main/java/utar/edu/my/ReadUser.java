@@ -11,28 +11,29 @@ import java.util.List;
 public class ReadUser extends FileFunction {
 
 	// Read User Data from File
-	public List<IUser> readFile() throws IOException {
+	public List<IUser> readFile(Path filePath) {
 		List<IUser> users = new ArrayList<>();
-		// File Path
-		Path userPath = cDirectory.resolve(Paths.get("user.txt"));
 		
 		// Retrieve User Details from File
-		BufferedReader userReader = Files.newBufferedReader(userPath);
-		String userLine;
-		while((userLine = userReader.readLine()) != null) {
+		try (BufferedReader userReader = Files.newBufferedReader(filePath)) {
+			String userLine;
+			while((userLine = userReader.readLine()) != null) {
 				
-			// Insert User Details
-			String[] userDetails = userLine.split(";");
-			users.add(new User(userDetails[0], userDetails[1], userDetails[2], userDetails[3]));
+				// Insert User Details
+				String[] userDetails = userLine.split(";");
+				users.add(new User(userDetails[0], userDetails[1], userDetails[2], userDetails[3]));
+			}
 		}
-		userReader.close();
+		catch (IOException e) {
+			System.out.print("Hi");
+		}
 		
 		return users;
 	}
 	
 	// Get Specific User Data by ID
 	public IUser getUser(String userID) throws IOException {
-		List<IUser> userList = readFile();
+		List<IUser> userList = readFile(Paths.get("student"));
 		
 		// Search User
 		for (IUser user : userList) {

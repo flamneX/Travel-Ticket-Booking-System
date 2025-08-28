@@ -53,7 +53,7 @@ public class CalculateFare {
 		Double discountedFare = 0.0;
 		
 		// Get Day Time Discount Details
-		int dayTimeDiscount = discount.dayTimeDiscount(travelDay, travelTime);
+		int dayTimeDiscount = discount.dayTimeDiscount(true, travelTime);
 		
 		// Get Discounted Fare by Passenger Type & Quantity
 		if (passengerType.size() != passengerQuantity.size() || passengerType.isEmpty() || passengerQuantity.isEmpty()) {

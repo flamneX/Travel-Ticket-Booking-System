@@ -1,6 +1,5 @@
 package utar.edu.my;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -10,37 +9,44 @@ public class ApplyDiscountSurcharge {
 	private final List<String> weekend = new ArrayList<>(Arrays.asList("SAT", "SUN"));
 	
 	// Discount Based on Passenger Type
-	public int passengerDiscount(Double travelDistance, String passengerType) throws IOException {
+	public int passengerDiscount(double travelDistance, String passengerType) {
 		int discountRate = 100;
+		
+		// Invalid Inputs
+		// Null Passenger
+		if (passengerType == null)
+			throw new IllegalArgumentException("Null Passenger Type");
+		// Invalid Travel Distance Range
+		else if (travelDistance <= 0 || travelDistance > 30)
+			throw new IllegalArgumentException("Invalid Travel Distance");
 		
 		
 		// Providing discount Rate Based on Passenger Type 
 		switch (passengerType.toUpperCase()) {
 			case "ADULT" -> discountRate = 100;
 			case "SENIOR" -> discountRate = 50;
-			case "SENIOR CITIZEN" -> discountRate = 50;
-			case "SENIORCITIZEN" -> discountRate = 50;
 			case "STUDENT" -> discountRate = 70;
 			case "CHILD" -> {
-				if (travelDistance > 5) {
+				if (travelDistance >= 5) {
 					discountRate = 50;
 				}
 				else {
 					discountRate = 0;
 				}
 			}
-			// Input Error
-			default -> throw new IOException();
+			// Invalid Passenger Type
+			default -> throw new IllegalArgumentException("Invalid Passenger Type");
 		}
 		return discountRate;
 	}
 	
-	// Discount Based on Day & Time (24 hour Format)
-	public int dayTimeDiscount(String travelDay, String travelTime) throws IOException {
-		int discountRate = 100;
-		int time;
+	// Confirm Whether Travel Day is Weekend or Weekday
+	public boolean isWeekend(String travelDay) {
+
+		if (travelDay == null) {
+			throw new IllegalArgumentException("Travel Day is Null");
+		}
 		
-		// Convert Day to Short Form
 		switch (travelDay.toUpperCase()) {
 			case "MONDAY" -> travelDay = "MON";
 			case "TUESDAY" -> travelDay = "TUE";
@@ -49,34 +55,54 @@ public class ApplyDiscountSurcharge {
 			case "FRIDAY" -> travelDay = "FRI";
 			case "SATURDAY" -> travelDay = "SAT";
 			case "SUNDAY" -> travelDay = "SUN";
+			default -> travelDay = travelDay.toUpperCase();
 		}
+		
+		if (weekend.contains(travelDay)) {
+			return true;
+		}
+		else if (weekday.contains(travelDay)) {
+			return false;
+		}
+		else {
+			throw new IllegalArgumentException("Invalid Date Format");
+		}
+	}
+	
+	// Discount Based on Day & Time (24 hour Format)
+	public int dayTimeDiscount(boolean weekend, String travelTime) {
+		int discountRate = 100;
+		int time;
+		int minute;
 		
 		// Convert Time to Integer
 		try {
 			time = Integer.parseInt(travelTime);
+			// Invalid Time Range
+			if (time < 0 || time > 2399)
+				throw new NumberFormatException();
+			else if (time > 100)
+				minute = time%100;
+			else
+				minute = time;
+			
+			if (minute > 60)
+				throw new NumberFormatException();
 		}
 		catch (NumberFormatException e) {
-			throw new IOException();
+			throw new IllegalArgumentException("Invalid Time Format");
 		}
 		
-		// Night Surcharge (+RM2)
-		if (time > 2200) {
+		// Night Sur-charge (+RM2)
+		if (time >= 2200)
 			discountRate = 2;
-		}
 		// Weekend Discount (-10%)
-		else if (weekend.contains(travelDay)) {
+		else if (weekend)
 			discountRate = 90;
-		}
-		// Weekday Rush Hour Surcharge (+20%)
-		else if (weekday.contains(travelDay)) {
-			if ((time > 630 && time < 930) || (time > 1700 && time < 2000)) {
+		// Weekday Rush Hour Sur-charge (+20%)
+		else 
+			if ((time >= 630 && time <= 930) || (time >= 1700 && time <= 2000))
 				discountRate = 120;
-			}
-		}
-		// Error Input
-		else {
-			throw new IOException();
-		}
 		
 		// Return DiscountedAmount
 		return discountRate;
