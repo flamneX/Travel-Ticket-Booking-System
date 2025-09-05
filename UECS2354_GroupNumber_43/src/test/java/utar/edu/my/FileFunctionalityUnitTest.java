@@ -17,7 +17,6 @@ public class FileFunctionalityUnitTest {
 	private String[] sampleArray = {"USER001;MIKU;miku@gmail.com;0123456789", "USER002;TETO;teto@gmail.com;0123456789"};
 	// File Paths
 	private String validFile = "TestData\\dummyFile1.txt";
-	private String lockedFile = "TestData\\LockedFile.txt";
 
 
 	// Setup For all Test Classes
@@ -47,7 +46,6 @@ public class FileFunctionalityUnitTest {
 			new Object[] {null, validFile},				// Null Input Array
 			new Object[] {sampleArray, null},			// Null File Name
 			new Object[] {sampleArray, anyString()},	// Invalid File Path
-			new Object[] {sampleArray, lockedFile}		// Read Only File
 		};
 	}
 	

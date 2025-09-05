@@ -1,6 +1,5 @@
 package utar.edu.my;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CalculateFare {
@@ -11,7 +10,7 @@ public class CalculateFare {
 	private double distance;
 	private double distanceFare;
 	private double totalFare;
-	private double paymentFare;
+	private double payment;
 
 
 	// Constructors
@@ -30,9 +29,17 @@ public class CalculateFare {
 	public double getDistanceTravelled() {
 		return distance;
 	}
-	
+
 	public double getDistanceFare() {
 		return distanceFare;
+	}
+	
+	public double getTotalFare() {
+		return totalFare;
+	}
+	
+	public double getPayment() {
+		return totalFare;
 	}
 
 
@@ -46,7 +53,7 @@ public class CalculateFare {
 		
 		// Invalid Distance Range
 		if (distance < 1 || distance > 30)
-			throw new IllegalArgumentException("Invalid Distance Value");
+			throw new IllegalArgumentException("Invalid Route Chosen");
 		// Valid Distance
 		else {
 			// Calculate Fare per Distance
@@ -78,7 +85,7 @@ public class CalculateFare {
 
 
 	// Calculate Fare After Discount + Passenger
-	public void getTotalFare(String travelDay, String travelTime, String startStation, String endStation, List<String> passengerType, List<Integer> passengerQuantity) {
+	public void calculateTotalFare(String travelDay, String travelTime, String startStation, String endStation, List<String> passengerType, List<Integer> passengerQuantity) {
 		double totalFare = 0;
 		
 		// Calculate Distance Fare for Distance Traveled
@@ -121,4 +128,12 @@ public class CalculateFare {
 		this.totalFare = totalFare;
 	}
 
+
+	// Calculate Payment For Fare Based On Payment Method
+	public void calculatePaymentFare(String paymentMethod) {
+		
+		// Calculate Payment By Payment Method
+		double paymentAdjustment = fa.paymentMethodAdjustment(paymentMethod);
+		payment = totalFare * paymentAdjustment;
+	}
 }

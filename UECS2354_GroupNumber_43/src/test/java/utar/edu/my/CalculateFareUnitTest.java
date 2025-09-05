@@ -109,8 +109,8 @@ public class CalculateFareUnitTest {
 	// Invalid Parameters - Boundary Value Analysis (BVA)
 	private Object getInvalidCalculateDistanceFareParamsBVA() {
 		return new Object[] {
-			new Object[] {0.0},		// 0 < x <= 30 (Valid)
-			new Object[] {31.0}
+			new Object[] {0.5},		// 0 < x <= 30 (Valid)
+			new Object[] {30.5}
 		};
 	}
 	
@@ -126,6 +126,10 @@ public class CalculateFareUnitTest {
 	}
 	
 	
-	// Get Total Fare
+	// Calculate Total Fare
 	// Valid Parameters
+	public void testCalculateTotalFare(double passengerDiscount, double disCount) {
+		
+		when(faMock.passengerAdjustment(anyString())).thenReturn(passengerDiscount);
+	}
 }

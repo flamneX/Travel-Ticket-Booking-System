@@ -39,10 +39,6 @@ public class FileFunctionality {
 		catch (FileNotFoundException fnf) {
 			throw new IllegalArgumentException("File \"" + fileName + "\" Does Not Exist In Database");
 		}
-		// Tried To Write to Restricted File
-		catch (AccessDeniedException ad) {
-			throw new IllegalArgumentException("File \"" + fileName + "\" is Read Only");
-		}
 		// Error Writing to File
 		catch (IOException io) {
 			throw new IllegalArgumentException("Error Writing To :" + fileName);

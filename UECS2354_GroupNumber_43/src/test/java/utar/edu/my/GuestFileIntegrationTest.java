@@ -21,7 +21,6 @@ public class GuestFileIntegrationTest {
 	private Guest invalidGuest = new Guest("MIKU", "miku@gmail.com", "");
 	// File Paths
 	private String validFile = "TestData\\guestDummy.txt";
-	private String lockedFile = "TestData\\LockedFile.txt";
 	
 	
 	// Setup For all Test Classes
@@ -89,7 +88,6 @@ public class GuestFileIntegrationTest {
 			new Object[] {null, validFile},				// Null Guest List
 			new Object[] {sampleArray, null},			// Null File Name
 			new Object[] {sampleArray, anyString()},	// Invalid File Name
-			new Object[] {sampleArray, lockedFile}		// Locked File
 		};
 	}
 	
