@@ -12,33 +12,27 @@ public class Guest implements IUser {
 	}
 
 	// Get Methods
-	@Override
 	public String getName() {
 		return name;
 	}
 
-	@Override
 	public String getEmail() {
 		return email;
 	}
 
-	@Override
 	public String getPhoneNo() {
 		return phoneNo;
 	}
 
 	// Set Methods
-	@Override
 	public void setName(String name) {
 		this.name = name;
 	}
 
-	@Override
 	public void setEmail(String email) {
 		this.email = email;
 	}
 
-	@Override
 	public void setPhoneNo(String phoneNo) {
 		this.phoneNo = phoneNo;
 	}
@@ -47,5 +41,22 @@ public class Guest implements IUser {
 	@Override
 	public String toString() {
 		return name + ";" + email + ";" + phoneNo;
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) 
+			return true;
+		
+		if (o == null || getClass() != o.getClass()) 
+			return false;
+		
+		Guest otherGuest = (Guest) o;
+		return toString().equals(otherGuest.toString());
+	}
+	
+	@Override
+	public int hashCode() {
+		return name != null ? name.hashCode() : 0;
 	}
 }

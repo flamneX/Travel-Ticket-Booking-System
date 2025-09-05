@@ -1,28 +1,56 @@
 package utar.edu.my;
 
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CalculateFare {
-	RouteInfo route = new RouteInfo();
-	ApplyDiscountSurcharge discount = new ApplyDiscountSurcharge();
-	
-	// Calculate Total Distance Traveled
-	public Double routeDistance(String startStation, String endStation) throws IOException {
-		return route.getRouteDistance(startStation, endStation);
+	// Integrated Classes
+	private RouteInfo ri;
+	private FareAdjustment fa;
+	// Data Fields
+	private double distance;
+	private double distanceFare;
+	private double totalFare;
+	private double paymentFare;
+
+
+	// Constructors
+	public CalculateFare() {
+		ri = new RouteInfo();
+		fa = new FareAdjustment();
 	}
 	
+	public CalculateFare(RouteInfo ri, FareAdjustment fa) {
+		this.ri = ri;
+		this.fa = fa;
+	}
+
+
+	// Get Methods
+	public double getDistanceTravelled() {
+		return distance;
+	}
+	
+	public double getDistanceFare() {
+		return distanceFare;
+	}
+
+
+	// Other Methods
 	// Calculate Total Fare Based on Distance Traveled
-	public Double totalFare(Double distance) throws IOException {
+	public void calculateDistanceFare(String startStation, String endStation) {
 		Double fare = 0.0;
 		
-		// Invalid Range
-		if (distance < 1 || distance > 30) {
-			throw new IOException();
-		}
+		// Get Distance Traveled
+		distance = ri.getRouteDistance(startStation, endStation);
+		
+		// Invalid Distance Range
+		if (distance <= 0 || distance > 30)
+			throw new IllegalArgumentException("Invalid Distance Value");
+		// Valid Distance
 		else {
-			// Loop till Complete
-			do {
+			// Calculate Fare per Distance
+			while (distance > 0) {
 				if (distance > 20) {
 					fare += (distance - 20) * 20;
 					distance = 20.0;
@@ -43,39 +71,54 @@ public class CalculateFare {
 					fare += distance * 2;
 					distance = 0.0;
 				}
-			} while (distance > 0);
-		}
-		return fare;
-	}
-	
-	// Calculate Discount Details
-	public Double discountedFare(Double fare, Double travelDistance, List<String> passengerType, List<Integer> passengerQuantity, String travelDay, String travelTime) throws IOException {
-		Double discountedFare = 0.0;
-		
-		// Get Day Time Discount Details
-		int dayTimeDiscount = discount.dayTimeDiscount(true, travelTime);
-		
-		// Get Discounted Fare by Passenger Type & Quantity
-		if (passengerType.size() != passengerQuantity.size() || passengerType.isEmpty() || passengerQuantity.isEmpty()) {
-			throw new IOException();
-		}
-		else {
-			// Passenger Type Loop
-			for (int i = 0; i < passengerType.size(); i++) {
-				// Passenger Amount Loop
-            	for (int j = 0; j < passengerQuantity.get(i); j++) {
-            	    Double passengerFare = fare * (discount.passengerDiscount(travelDistance, passengerType.get(i))/100);
-				
-            	    // Add on Discount for Travel Day & Time
-            	    if (dayTimeDiscount == 2) {
-            	        discountedFare += passengerFare + 2;
-            	    }
-            	    else {
-            	        discountedFare += passengerFare * (dayTimeDiscount/100);
-            	    }
-            	}
 			}
 		}
-		return discountedFare;
+		distanceFare = fare;
 	}
+
+
+	// Calculate Fare After Discount + Passenger
+	public void getTotalFare(String travelDay, String travelTime, String startStation, String endStation, List<String> passengerType, List<Integer> passengerQuantity) {
+		double totalFare = 0;
+		
+		// Calculate Distance Fare for Distance Traveled
+		calculateDistanceFare(startStation, endStation);
+		
+		// Null Passenger Type or Passenger Quantity
+		if (passengerType == null || passengerQuantity == null)
+			throw new IllegalArgumentException("Passenger Type & Quantity Cannot Be Null");
+		// Empty Passenger Type or Passenger Quantity
+		else if (passengerType.size() == 0 || passengerQuantity.size() == 0) {
+			throw new IllegalArgumentException("Passenger Type & Quantity Cannot Be Empty");
+		}
+		// Passenger Type & Passenger Quantity Are of Different Lengths
+		else if (passengerType.size() != passengerQuantity.size())
+			throw new IllegalArgumentException("Passenger Quantity Does Not Match Passenger Type");
+
+		
+		// Loop through Passengers
+		for (int i = 0; i < passengerType.size(); i++) {
+			double fare = getDistanceFare();
+			
+			// Calculate Fare By Passenger Type
+			double passengerDiscount = fa.passengerAdjustment(passengerType.get(i));
+			fare *= passengerDiscount;
+			
+			// Calculate Fare By Day & Time
+			double dayTimeDiscount = fa.dayTimeAdjustment(travelDay, travelTime);
+			if (dayTimeDiscount == 2)
+				fare += dayTimeDiscount;
+			else
+				fare *= dayTimeDiscount/100;
+			
+			// Multiply Fare By Passenger Amount
+			fare *= passengerQuantity.get(i);
+			
+			// Add to Total Fare
+			totalFare += fare;
+		}
+
+		this.totalFare = totalFare;
+	}
+
 }

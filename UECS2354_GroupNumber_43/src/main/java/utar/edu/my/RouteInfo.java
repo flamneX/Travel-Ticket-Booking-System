@@ -8,20 +8,21 @@ import java.util.Map;
 public class RouteInfo {
 	private List<Station> stationList = new ArrayList<>();
 	// Station Names
-	private final String[] stationNameList = {"KL Sentral", "Mid Valley", "Subang Jaya", "Shah Alam", "Bangsar", "Kepong Sentral", "Sentul Timur", "Titiwangsa", 
-			"Ampang Park", "KLCC", "Masjid Jamek", "Bandaraya", "Batu Kentonmen", "Rawang", "Sungai Buloh", "Serdang", "Kajang", "Semenyih Sentral", 
-			"Gombak", "Taman Melati", "Wangsa Maju", "Setiawangsa"};
+	private final String[] stationNameList = {"kl sentral", "mid valley", "subang jaya", "shah alam", "bangsar", "kepong sentral", "sentul timur", "titiwangsa", 
+			"ampang park", "klcc", "masjid jamek", "bandaraya", "batu kentonmen", "rawang", "sungai buloh", "serdang", "kajang", "semenyih sentral", 
+			"gombak", "taman melati", "wangsa maju", "setiawangsa"};
 	// Station Path From
-	private final String[] station1List = {"KL Sentral", "KL Sentral", "Subang Jaya", "Bangsar", "KL Sentral", "Sentul Timur", "Titiwangsa", "Ampang Park", 
-			"KLCC", "Masjid Jamek", "Bandaraya", "Batu Kentonmen", "Rawang", "Sungai Buloh", "Serdang", "Kajang", 
-			"Gombak", "Taman Melati", "Wangsa Maju", "Setiawangsa"};
+	private final String[] station1List = {"kl sentral", "kl sentral", "subang jaya", "bangsar", "kl sentral", "sentul timur", "titiwangsa", "ampang park", 
+			"klcc", "masjid jamek", "bandaraya", "batu kentonmen", "rawang", "sungai buloh", "serdang", "kajang", 
+			"gombak", "taman melati", "wangsa maju", "setiawangsa"};
 	// Station Path To
-	private final String[] station2List = {"Mid Valley", "Subang Jaya", "Shah Alam", "KL Sentral", "Kepong Sentral", "Titiwangsa", "Ampang Park", "KLCC", 
-			"Masjid Jamek", "Bandaraya", "Batu Kentonmen", "Rawang", "Sungai Buloh", "Kepong Sentral", "Kajang", "Semenyih Sentral", 
-			"Taman Melati", "Wangsa Maju", "Setiawangsa", "KL Sentral"};
+	private final String[] station2List = {"mid valley", "subang jaya", "shah alam", "kl sentral", "kepong sentral", "titiwangsa", "ampang park", "klcc", 
+			"masjid jamek", "bandaraya", "batu kentonmen", "rawang", "sungai buloh", "kepong sentral", "kajang", "semenyih sentral", 
+			"taman melati", "wangsa maju", "setiawangsa", "kl sentral"};
 	// Station Path Distance
 	private final double[] stationDistance = {5.0, 18.0, 7.0, 2.0, 12.5, 3.5, 4.0, 1.0, 3.0, 1.5, 10.0, 26.0, 12.0, 9.5, 10.0, 6.0, 4.0, 2.0, 4.5, 16.0};
-	
+
+
 	// Setup all Stations, Paths & Distance
 	public RouteInfo() {
 		for (String stationName : stationNameList) {
@@ -50,61 +51,61 @@ public class RouteInfo {
 			}
 		}
 	}
+
+
+	// Validate Station Name & Return Station Object
+	public Station validateStation(String stationName) {
+		
+		// Null Station Name
+		if (stationName == null)
+			throw new IllegalArgumentException("Station Name Cannot Be Null");
+		
+		// Format Station Name
+		stationName = stationName.trim().toLowerCase();
+		
+		// Search For Station
+		for (Station station : stationList) {
+			// Found Station
+			if (station.getStationName().equals(stationName))
+				return station;
+		}
+		// Station Not Found
+		throw new IllegalArgumentException("No Stations Found");
+		
+	}
 	
 
 	// Find Start & End Stations
 	// Helper Method for Routing Algorithm
 	public Double getRouteDistance(String startStation, String endStation) {
-		Station originStation = null;
-		Station destinationStation = null;
 		double distance;
 		
-		// Invalid Input
-		if (startStation == null || endStation == null) {
-			throw new IllegalArgumentException("Null Start/End Station");
-		}
-		
-		// Search for Start & End Station Details
-		for (Station station : stationList) {
-			// Get Start Station Details
-			if (station.getStationName().equals(startStation)) {
-				originStation = station;
-			}
-			// Get End Station Details
-			else if (station.getStationName().equals(endStation)) {
-				destinationStation = station;
-			}
-			// Stop the Loop
-			if (originStation != null && destinationStation != null) {
-				break;
-			}
-		}
-		
-		// Invalid Station
-		if (!stationList.contains(originStation) || !stationList.contains(destinationStation)) {
-			throw new IllegalArgumentException("No Stations Found");
-		}
+		// Find Stations
+		Station originStation = validateStation(startStation);
+		Station destinationStation = validateStation(endStation);
+
 		// Same Station
-		else if (originStation.equals(destinationStation)) {
+		if (originStation.equals(destinationStation))
 			throw new IllegalArgumentException("Same Start & End Station");
-		}
 		
 		// Start Routing
 		distance = findRoute(null, originStation, destinationStation);
-		if (distance <= 0) {
+		
+		// No Routes Found
+		if (distance <= 0)
 			throw new IllegalArgumentException("No Routes Found");
-		}
-		else {
+		// Found Valid Route
+		else
 			return distance;
-		}
 	}
-	
+
+
 	// Calculate Shortest Distance Between Stations
 	private Double findRoute(Station previousStation, Station currentStation, Station destination) {
 		Double currentDistance = Double.MAX_VALUE;
 		List<Double> distances = new ArrayList<>();
 		
-		// Arrived at End Station
+		// Check If Arrived at End Station
 		if (currentStation.equals(destination)) {
 			return 0.0;
 		}

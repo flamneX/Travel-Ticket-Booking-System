@@ -10,4 +10,9 @@ public interface IUser {
     public void setName(String name);
     public void setEmail(String email);
     public void setPhoneNo(String phoneNo);
+    
+    // Base Functions
+    public String toString();
+    public boolean equals(Object o);
+    public int hashCode();
 }
