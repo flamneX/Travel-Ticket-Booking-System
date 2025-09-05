@@ -1,7 +1,6 @@
 package utar.edu.my;
 
 import static org.junit.Assert.assertArrayEquals;
-import static org.mockito.ArgumentMatchers.anyString;
 
 import java.util.List;
 
@@ -29,8 +28,8 @@ public class GuestFileIntegrationTest {
 		// Setup Mock and Class
 		gf = new GuestFile();
 	}
-	
-	
+
+
 	// Read & Write Guest
 	// Valid Parameters
 	@Test
@@ -47,8 +46,8 @@ public class GuestFileIntegrationTest {
 		// Compare Results
 		assertArrayEquals(result, readWriteData);
 	}
-	
-	
+
+
 	// Read Guest From File
 	// Invalid File Data Format
 	@Test (expected = IllegalArgumentException.class)
@@ -66,7 +65,7 @@ public class GuestFileIntegrationTest {
 	private Object getInvalidReadGuestFromFileParams() {
 		return new Object[] {
 			new Object[] {null},			// Null File Name
-			new Object[] {anyString()},		// Invalid File Name
+			new Object[] {""},				// Invalid File Path
 		};
 	}
 	
@@ -87,7 +86,7 @@ public class GuestFileIntegrationTest {
 		return new Object[] {
 			new Object[] {null, validFile},				// Null Guest List
 			new Object[] {sampleArray, null},			// Null File Name
-			new Object[] {sampleArray, anyString()},	// Invalid File Name
+			new Object[] {sampleArray, ""},				// Invalid File Path
 		};
 	}
 	

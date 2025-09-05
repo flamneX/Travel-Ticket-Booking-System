@@ -1,7 +1,6 @@
 package utar.edu.my;
 
 import static org.junit.Assert.assertArrayEquals;
-import static org.mockito.ArgumentMatchers.anyString;
 
 import java.util.List;
 
@@ -66,7 +65,7 @@ public class UserFileIntegrationTest {
 	private Object getInvalidReadUserFromFileParams() {
 		return new Object[] {
 			new Object[] {null},			// Null File Name
-			new Object[] {anyString()},		// Invalid File Name
+			new Object[] {""}				// Invalid File Path
 		};
 	}
 	
@@ -87,7 +86,7 @@ public class UserFileIntegrationTest {
 		return new Object[] {
 			new Object[] {null, validFile},				// Null User List
 			new Object[] {sampleArray, null},			// Null File Name
-			new Object[] {sampleArray, anyString()},	// Invalid File Name
+			new Object[] {sampleArray, ""}				// Invalid File Path
 		};
 	}
 	

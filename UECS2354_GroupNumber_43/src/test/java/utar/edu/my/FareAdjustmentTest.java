@@ -1,7 +1,6 @@
 package utar.edu.my;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.ArgumentMatchers.anyString;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -56,7 +55,7 @@ public class FareAdjustmentTest {
 	private Object getInvalidPassengerTypeParams() {
 		return new Object[] {
 			new Object[] {null},		// Null Passenger Type
-			new Object[] {anyString()}	// Invalid Passenger Type
+			new Object[] {"INVALID"}	// Invalid Passenger Type
 		};
 	}
 		
@@ -108,7 +107,7 @@ public class FareAdjustmentTest {
 			new Object[] {35.0, "adult"},
 			// Passenger Type
 			new Object[] {1.0, null},			// Null Passenger Type
-			new Object[] {1.0, anyString()}		// Invalid Passenger Type
+			new Object[] {1.0, "INVALID"}		// Invalid Passenger Type
 		};
 	}
 	
@@ -163,11 +162,11 @@ public class FareAdjustmentTest {
 	private Object getInvalidPassengerAdjustmentParamsBVA() {
 		return new Object[] {
 			// Travel Distance
-			new Object[] {0.0, "adult"},		// Invalid Distance Range
-			new Object[] {31.0, "adult"},
+			new Object[] { 0.0	, "adult"},		// Invalid Distance Range
+			new Object[] {31.0	, "adult"},
 			// Passenger Type
-			new Object[] {1.0, null},			// Null Passenger Type
-			new Object[] {1.0, anyString()},	// Invalid Passenger Type
+			new Object[] { 1.0	, null},		// Null Passenger Type
+			new Object[] { 1.0	, "INVALID"},	// Invalid Passenger Type
 		};
 	}
 
@@ -201,10 +200,10 @@ public class FareAdjustmentTest {
 			new Object[] {"FRIDAY", false},
 			new Object[] {"friday", false},
 			// Saturday
-			new Object[] {"SATURDAY", false},
+			new Object[] {"SATURDAY", true},
 			new Object[] {"saturday", true},
 			// Sunday
-			new Object[] {"SUNDAY", false},
+			new Object[] {"SUNDAY", true},
 			new Object[] {"sunday", true}
 		};
 	}
@@ -224,7 +223,7 @@ public class FareAdjustmentTest {
 	private Object getInvalidIsWeekendParams() {
 		return new Object[] {
 			new Object[] {null},		// Null Day
-			new Object[] {anyString()}	// Invalid Day
+			new Object[] {"INVALID"}	// Invalid Day
 		};
 	}
 	
@@ -262,7 +261,7 @@ public class FareAdjustmentTest {
 	private Object getInvalidTravelTimeParams() {
 		return new Object[] {
 			new Object[] {null},		// Null Travel Time
-			new Object[] {anyString()},	// Invalid Travel Time
+			new Object[] {"INVALID"},	// Invalid Travel Time
 			new Object[] {"-0001",},	// Invalid Time Range
 			new Object[] {"2400"},
 			new Object[] {"0060"},		// Invalid Time Format
@@ -313,13 +312,13 @@ public class FareAdjustmentTest {
 	// Invalid Parameters - Equivalent Partitioning (EP)
 	private Object getInvalidDayTimeAdjustmentParamsEP() {
 		return new Object[] {
-			new Object[] {null, "0000"},			// Null Travel Day
-			new Object[] {anyString(), "0000"},		// Invalid Travel Day
-			new Object[] {"monday", null},			// Null Travel Time
-			new Object[] {"monday", anyString()},	// Invalid Travel Time
-			new Object[] {"monday", "-0500"},		// Invalid Time Range
-			new Object[] {"monday", "2500"},
-			new Object[] {"monday", "0070"}			// Invalid Time Format 
+			new Object[] {null		, "0000"},		// Null Travel Day
+			new Object[] {"INVALID"	, "0000"},		// Invalid Travel Day
+			new Object[] {"monday"	, null},		// Null Travel Time
+			new Object[] {"monday"	, "INVALID"},	// Invalid Travel Time
+			new Object[] {"monday"	, "-0500"},		// Invalid Time Range
+			new Object[] {"monday"	, "2500"},
+			new Object[] {"monday"	, "0070"}		// Invalid Time Format 
 		};
 	}
 	
@@ -379,14 +378,14 @@ public class FareAdjustmentTest {
 	// Invalid Parameters - Boundary Value Analysis (BVA)
 	private Object getInvalidDayTimeAdjustmentParamsBVA() {
 		return new Object[] {
-			new Object[] {null, "0000"},			// Null Travel Day
-			new Object[] {anyString(), "0000"},		// Invalid Travel Day
-			new Object[] {"monday", null},			// Null Travel Time
-			new Object[] {"monday", anyString()},	// Invalid Travel Time
-			new Object[] {"monday", "-0001"},		// Invalid Time Range
-			new Object[] {"monday", "2400"},
-			new Object[] {"monday", "0060"},		// Invalid Time Format
-			new Object[] {"monday", "0099"}
+			new Object[] {null		, "0000"},		// Null Travel Day
+			new Object[] {"INVALID"	, "0000"},		// Invalid Travel Day
+			new Object[] {"monday"	, null},		// Null Travel Time
+			new Object[] {"monday"	, "INVALID"},	// Invalid Travel Time
+			new Object[] {"monday"	, "-0001"},		// Invalid Time Range
+			new Object[] {"monday"	, "2400"},
+			new Object[] {"monday"	, "0060"},		// Invalid Time Format
+			new Object[] {"monday"	, "0099"}
 		};
 	}
 	
@@ -430,7 +429,7 @@ public class FareAdjustmentTest {
 	private Object getInvalidPaymentMethodParams() {
 		return new Object[] {
 			new Object[] {null},		// Null Payment Method
-			new Object[] {anyString()}	// Invalid Payment Method
+			new Object[] {"INVALID"}	// Invalid Payment Method
 		};
 	}
 	
@@ -468,7 +467,7 @@ public class FareAdjustmentTest {
 	private Object getInvalidPaymentMethodAdjustmentParams() {
 		return new Object[] {
 			new Object[] {null},		// Null Payment Method
-			new Object[] {anyString()}	// Invalid Payment Method
+			new Object[] {"INVALID"}	// Invalid Payment Method
 		};
 	}
 	

@@ -41,7 +41,7 @@ public class FareAdjustment {
 		double adjustment = 1.0;
 				
 		// Invalid Travel Distance Range
-		if (travelDistance <= 0 || travelDistance > 30)
+		if (travelDistance < 1 || travelDistance > 30)
 			throw new IllegalArgumentException("Invalid Travel Distance");
 	
 		// Providing discount Rate Based on Passenger Type 
@@ -80,7 +80,7 @@ public class FareAdjustment {
 		// Valid Travel Day
 		else
 			// Weekends
-			if (travelDay == "saturday" || travelDay == "sunday")
+			if (travelDay.equals("saturday") || travelDay.equals("sunday"))
 				return true;
 			// Weekdays
 			else
@@ -98,7 +98,7 @@ public class FareAdjustment {
 		try {
 			// Convert Time to Integer
 			time = Integer.parseInt(travelTime);
-			
+
 			// Invalid Time Range
 			if (time < 0 || time > 2359)
 				throw new NumberFormatException();

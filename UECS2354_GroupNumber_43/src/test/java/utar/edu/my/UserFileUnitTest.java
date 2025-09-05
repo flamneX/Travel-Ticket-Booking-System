@@ -126,6 +126,6 @@ public class UserFileUnitTest {
 			.when(ffMock).writeToFile(any(String[].class), anyString());
 		
 		// Run Method
-		uf.writeUserToFile(new User[0], "INVALID");
+		uf.writeUserToFile(new User[0], validFile);
 	}
 }

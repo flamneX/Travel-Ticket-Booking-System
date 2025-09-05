@@ -1,7 +1,6 @@
 package utar.edu.my;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.ArgumentMatchers.anyString;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -67,7 +66,7 @@ public class RouteInfoUnitTest {
 	private Object getInvalidStationNameParams() {
 		return new Object[] {
 			new Object[] {null},		// Null Station Name
-			new Object[] {anyString()}	// Invalid Station Name
+			new Object[] {"INVALID"}	// Invalid Station Name
 		};
 	}
 	
@@ -100,7 +99,7 @@ public class RouteInfoUnitTest {
 
 	@Test
 	@Parameters (method = "getValidGetRouteDistanceParams")
-	public void testGetRouteDistanceValidValues(String startStation, String endStation, double expectedResult) {
+	public void testGetRouteDistanceValid(String startStation, String endStation, double expectedResult) {
 
 		// Run Method
 		double result = ri.getRouteDistance(startStation, endStation);
@@ -113,17 +112,21 @@ public class RouteInfoUnitTest {
 	private Object getInvalidGetRouteDistanceParams() {
 		return new Object[] {
 			// Origin Station
-			new Object[] {null			, "klcc"},	// Null Station
-			new Object[] {anyString()	, "klcc"},	// Invalid Station
+			new Object[] {null		, "klcc"},			// Null Station
+			new Object[] {"INVALID"	, "klcc"},			// Invalid Station
 			// End Station
-			new Object[] {"klcc"	, null},		// Null Station
-			new Object[] {"KLCC"	, anyString()}	// Invalid Station
+			new Object[] {"klcc"	, null},			// Null Station
+			new Object[] {"klcc"	, "INVALID"},		// Invalid Station
+			// Same Station
+			new Object[] {"klcc"	, "klcc"},			// Same Station
+			// Invalid Route
+			new Object[] {"kajang"	, "taman melati"}	// Invalid Route
 		};
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
 	@Parameters (method = "getInvalidGetRouteDistanceParams")
-	public void testGetRouteDistanceInvalidValues(String startStation, String endStation) {
+	public void testGetRouteDistanceInvalid(String startStation, String endStation) {
 		
 		// Run Method
 		ri.getRouteDistance(startStation, endStation);

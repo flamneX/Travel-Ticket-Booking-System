@@ -1,7 +1,6 @@
 package utar.edu.my;
 
 import static org.junit.Assert.assertArrayEquals;
-import static org.mockito.ArgumentMatchers.anyString;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -43,9 +42,9 @@ public class FileFunctionalityUnitTest {
 	// Invalid Parameters
 	private Object getWriteToFileInvalidParams() {
 		return new Object[] {
-			new Object[] {null, validFile},				// Null Input Array
-			new Object[] {sampleArray, null},			// Null File Name
-			new Object[] {sampleArray, anyString()},	// Invalid File Path
+			new Object[] {null, validFile},			// Null Input Array
+			new Object[] {sampleArray, null},		// Null File Name
+			new Object[] {sampleArray, ""}			// Invalid File Path
 		};
 	}
 	
@@ -63,7 +62,7 @@ public class FileFunctionalityUnitTest {
 	private Object getReadFromFileInvalidParams() {
 		return new Object[] {
 			new Object[] {null},		// Null File Name
-			new Object[] {anyString()}	// Invalid File Name
+			new Object[] {""}			// Invalid File Name
 		};
 	}
 

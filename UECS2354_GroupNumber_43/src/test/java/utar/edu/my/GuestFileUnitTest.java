@@ -105,7 +105,8 @@ public class GuestFileUnitTest {
 			
 		// Run Method
 		gf.writeGuestToFile(writeArray, validFile);
-			
+		
+		// Verify Method Execution
 		verify(ffMock, times(1)).writeToFile(expectedArray, validFile);
 	}
 		

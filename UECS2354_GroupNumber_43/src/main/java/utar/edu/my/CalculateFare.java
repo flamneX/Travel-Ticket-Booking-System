@@ -1,5 +1,6 @@
 package utar.edu.my;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CalculateFare {
@@ -8,9 +9,10 @@ public class CalculateFare {
 	private FareAdjustment fa;
 	// Data Fields
 	private double distance;
-	private double distanceFare;
 	private double totalFare;
-	private double payment;
+	private double discountedFare;
+	private double paymentAmount;
+	private List<String> adjustmentDetails;
 
 
 	// Constructors
@@ -26,77 +28,77 @@ public class CalculateFare {
 
 
 	// Get Methods
-	public double getDistanceTravelled() {
+	public double getDistance() {
 		return distance;
-	}
-
-	public double getDistanceFare() {
-		return distanceFare;
 	}
 	
 	public double getTotalFare() {
 		return totalFare;
 	}
 	
-	public double getPayment() {
-		return totalFare;
+	public double getDiscountedFare() {
+		return discountedFare;
 	}
-
-
+	
+	public double getPaymentAmount() {
+		return paymentAmount;
+	}
+	
+	public List<String> getAdjustmentDetails() {
+		return adjustmentDetails;
+	}
+	
+	// Set Methods
+	public void setDiscountedFare(double discountedFare) {
+		this.discountedFare = discountedFare;
+	}
+	
 	// Other Methods
 	// Calculate Total Fare Based on Distance Traveled
-	public void calculateDistanceFare(String startStation, String endStation) {
+	public void calculateTotalFare(String startStation, String endStation) {
 		Double fare = 0.0;
 		
 		// Get Distance Traveled
 		distance = ri.getRouteDistance(startStation, endStation);
+		fa.setTravelDistance(distance);
 		
 		// Invalid Distance Range
-		if (distance < 1 || distance > 30)
-			throw new IllegalArgumentException("Invalid Route Chosen");
+		if (distance < 1)
+			throw new IllegalArgumentException("No Routes Found");
+		else if (distance > 30)
+			throw new IllegalArgumentException("Distance Exceeds Limit");
 		// Valid Distance
 		else {
-			// Calculate Fare per Distance
-			while (distance > 0) {
-				if (distance > 20) {
-					fare += (distance - 20) * 20;
-					distance = 20.0;
-				}
-				else if (distance > 15) {
-					fare += (distance - 15) * 15;
-					distance = 15.0;
-				}
-				else if (distance > 10) {
-					fare += (distance - 10) * 10;
-					distance = 10.0;
-				}
-				else if (distance > 5) {
-					fare += (distance - 5) * 5;
-					distance = 5.0;
-				}
-				else {
-					fare += distance * 2;
-					distance = 0.0;
-				}
-			}
+			// Calculate Fare for Distance
+			if (distance > 20)
+				fare += 20;
+			else if (distance > 15)
+				fare += 15;
+			else if (distance > 10)
+				fare += 10;
+			else if (distance > 5)
+				fare += 5;
+			else
+				fare += 2;
 		}
-		distanceFare = fare;
+		totalFare = fare;
 	}
 
 
 	// Calculate Fare After Discount + Passenger
-	public void calculateTotalFare(String travelDay, String travelTime, String startStation, String endStation, List<String> passengerType, List<Integer> passengerQuantity) {
-		double totalFare = 0;
+	public void calculateDiscountedFare(String travelDay, String travelTime, String startStation, String endStation, List<String> passengerType, List<Integer> passengerQuantity) {
+		double sumOfFare = 0;
+		List<String> detailList = new ArrayList<> ();
 		
 		// Calculate Distance Fare for Distance Traveled
-		calculateDistanceFare(startStation, endStation);
+		calculateTotalFare(startStation, endStation);
 		
-		// Null Passenger Type or Passenger Quantity
-		if (passengerType == null || passengerQuantity == null)
-			throw new IllegalArgumentException("Passenger Type & Quantity Cannot Be Null");
-		// Empty Passenger Type or Passenger Quantity
-		else if (passengerType.size() == 0 || passengerQuantity.size() == 0) {
-			throw new IllegalArgumentException("Passenger Type & Quantity Cannot Be Empty");
+		// Null or Empty Passenger Type
+		if (passengerType == null || passengerType.size() == 0)
+			throw new IllegalArgumentException("Passenger Type Cannot Be Null or Empty");
+		// Null or Empty Passenger Quantity
+		else if (passengerQuantity == null || passengerQuantity.size() == 0) {
+			throw new IllegalArgumentException("Passenger Quantity Cannot Be Null or Empty");
 		}
 		// Passenger Type & Passenger Quantity Are of Different Lengths
 		else if (passengerType.size() != passengerQuantity.size())
@@ -105,35 +107,48 @@ public class CalculateFare {
 		
 		// Loop through Passengers
 		for (int i = 0; i < passengerType.size(); i++) {
-			double fare = getDistanceFare();
+			double fare = totalFare;
+			String detail = new String();
 			
 			// Calculate Fare By Passenger Type
 			double passengerDiscount = fa.passengerAdjustment(passengerType.get(i));
 			fare *= passengerDiscount;
+			detail += "Passenger Adjustment : " + ((1.0 - passengerDiscount) * 100) + " %\n";
 			
 			// Calculate Fare By Day & Time
 			double dayTimeDiscount = fa.dayTimeAdjustment(travelDay, travelTime);
-			if (dayTimeDiscount == 2)
+			if (dayTimeDiscount == 2) {
 				fare += dayTimeDiscount;
-			else
+				detail += "Day Time Adjustment  : + RM 2.00\n";
+			}
+			else {
 				fare *= dayTimeDiscount/100;
+				detail += "Day Time Adjustment  : " + (double) (dayTimeDiscount - 100) + " %\n";
+			}
 			
 			// Multiply Fare By Passenger Amount
 			fare *= passengerQuantity.get(i);
+			detail += "Passenger Amount     : " + passengerQuantity.get(i) + "\n";
 			
 			// Add to Total Fare
-			totalFare += fare;
+			sumOfFare += fare;
+			detailList.add(detail);
 		}
 
-		this.totalFare = totalFare;
+		discountedFare = sumOfFare;
+		adjustmentDetails = detailList;
 	}
 
 
 	// Calculate Payment For Fare Based On Payment Method
-	public void calculatePaymentFare(String paymentMethod) {
+	public void calculatePayment(String paymentMethod) {
+		
+		// Null Fare Amount
+		if (discountedFare <= 0)
+			throw new IllegalArgumentException("Fare Has Not Been Calculated");
 		
 		// Calculate Payment By Payment Method
 		double paymentAdjustment = fa.paymentMethodAdjustment(paymentMethod);
-		payment = totalFare * paymentAdjustment;
+		paymentAmount = discountedFare * paymentAdjustment;
 	}
 }
