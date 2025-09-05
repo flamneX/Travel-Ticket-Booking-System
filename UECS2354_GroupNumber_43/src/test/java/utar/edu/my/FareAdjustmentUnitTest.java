@@ -9,7 +9,7 @@ import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 
 @RunWith(JUnitParamsRunner.class)
-public class FareAdjustmentTest {
+public class FareAdjustmentUnitTest {
 	// Target Class
 	FareAdjustment fa;
 	

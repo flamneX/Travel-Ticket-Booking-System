@@ -7,39 +7,48 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 
 @RunWith(JUnitParamsRunner.class)
-public class BookingImplementationTest {
+public class CalculateFareIntegrationTest {
+	// Target Class
+	private CalculateFare cf;
 
-	// Get Total Fare
+
+	// Setup For all Test Classes
+	@Before
+	public void setupClass() {
+		// Setup Class
+		cf = new CalculateFare();
+	}
+	
+	// Calculate Total Fare
 	// Valid Parameters
-	private Object getValidGetTotalFareParams() {
+	private Object getValidCalculateTotalFareParams() {
 		return new Object[] {
 			new Object[] {"titiwangsa"	, "batu kentonmen"	, 15.0},
 			new Object[] {"kl sentral"	, "gombak"			, 20.0}
 		};
 	}
 	
-	@Test
-	@Parameters (method = "getValidGetTotalFareParams")
-	public void testGetTotalFareValid(String startStation, String endStation, double expectedResult) {
-
-		// Setup Class
-		Booking b = new Booking(null, null, null, startStation, endStation, null, null,null);
+	@Test 
+	@Parameters (method = "getValidCalculateTotalFareParams")
+	public void testCalculateTotalFareValid(String startStation, String endStation, double expectedResult) {
 		
 		// Run Method
-		double result = b.getTotalFare();
+		cf.calculateTotalFare(startStation, endStation);
+		double result = cf.getTotalFare();
 		
 		// Compare Result
 		assertEquals(result, expectedResult, 0.01);
 	}
 	
 	// Invalid Parameters
-	private Object getInvalidGetTotalFareParams() {
+	private Object getInvalidCalculateTotalFareParams() {
 		return new Object[] {
 			// Start Station
 			new Object[] {null		, "klcc"},			// Null Station
@@ -55,33 +64,30 @@ public class BookingImplementationTest {
 			new Object[] {"klcc"	, "sungai buloh"}
 		};
 	}
-		
+	
 	@Test (expected = IllegalArgumentException.class)
-	@Parameters (method = "getInvalidGetTotalFareParams")
-	public void testGetTotalFareInvalid(String startStation, String endStation) {
-
-		// Setup Class
-		Booking b = new Booking(null, null, null, startStation, endStation, null, null,null);
+	@Parameters (method = "getInvalidCalculateTotalFareParams")
+	public void testCalculateTotalFareInvalid(String startStation, String endStation) {
 		
 		// Run Method
-		b.getTotalFare();
+		cf.calculateTotalFare(startStation, endStation);
 	}
 	
 	
-	// Get Discounted Fare + Get Discount Details
+	// Calculate Discounted Fare
 	// Valid Parameters
-	private Object getValidGetDiscountedFareParams() {
+	private Object getValidCalculateDiscountedFareParams() {
 		// Sample Array
 		List<String> passengerType = new ArrayList<> (Arrays.asList("adult", "child", "senior citizen"));
 		List<Integer> passengerQuantity = new ArrayList<> (Arrays.asList(2, 1, 3));
-
+		
 		String[] detail1 = {"Passenger Adjustment : 0.0 %\nDay Time Adjustment  : 0.0 %\nPassenger Amount     : 2\n",
 				"Passenger Adjustment : 50.0 %\nDay Time Adjustment  : 0.0 %\nPassenger Amount     : 1\n",
 				"Passenger Adjustment : 50.0 %\nDay Time Adjustment  : 0.0 %\nPassenger Amount     : 3\n"};
 		String[] detail2 = {"Passenger Adjustment : 0.0 %\nDay Time Adjustment  : + RM 2.00\nPassenger Amount     : 2\n",
 				"Passenger Adjustment : 50.0 %\nDay Time Adjustment  : + RM 2.00\nPassenger Amount     : 1\n",
 				"Passenger Adjustment : 50.0 %\nDay Time Adjustment  : + RM 2.00\nPassenger Amount     : 3\n"};
-				
+		
 		return new Object[] {
 			new Object[] {"monday", "0200", "titiwangsa", "batu kentonmen"	, passengerType, passengerQuantity, 60.0, detail1},
 			new Object[] {"sunday", "2300", "kl sentral", "gombak"			, passengerType, passengerQuantity, 92.0, detail2},
@@ -89,26 +95,24 @@ public class BookingImplementationTest {
 	}
 	
 	@Test
-	@Parameters (method = "getValidGetDiscountedFareParams")
-	public void testGetDiscountedFareValid(String travelDay, String travelTime, String startStation, String endStation,
+	@Parameters (method = "getValidCalculateDiscountedFareParams")
+	public void testCalculateDiscountedFareValid(String travelDay, String travelTime, String startStation, String endStation,
 			List<String> passengerType, List<Integer> passengerQuantity, double expectedFare, String[] expectedDetail) {
 		
-		// Setup Class
-		Booking b = new Booking(null, travelDay, travelTime, startStation, endStation, passengerType, passengerQuantity, null);
-		
 		// Run Method
-		double resultFare = b.getDiscountedFare();
-		List<String> adjDetail = b.getDiscountDetails();
+		cf.calculateDiscountedFare(travelDay, travelTime, startStation, endStation, passengerType, passengerQuantity);
+		double resultFare = cf.getDiscountedFare();
+		List<String> adjDetail = cf.getAdjustmentDetails();
 		String[] resultDetail = adjDetail.toArray(new String[adjDetail.size()]);
+		
 		
 		// Compare Result
 		assertEquals(resultFare, expectedFare, 0.01);
 		assertArrayEquals(resultDetail, expectedDetail);
 	}
 	
-	// Get Discounted Fare
 	// Invalid Parameters
-	private Object getInvalidGetDiscountedFareParams() {
+	private Object getInvalidCalculateDiscountedFareParams() {
 		// Sample Array
 		List<String> passengerType = new ArrayList<> (Arrays.asList("adult", "child", "senior citizen"));
 		List<Integer> passengerQuantity = new ArrayList<> (Arrays.asList(2, 1, 3));
@@ -145,80 +149,55 @@ public class BookingImplementationTest {
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
-	@Parameters (method = "getInvalidGetDiscountedFareParams")
-	public void testGetDiscountedFareParams(String travelDay, String travelTime, String startStation, String endStation,
+	@Parameters (method = "getInvalidCalculateDiscountedFareParams")
+	public void testCalculateDiscountedFareParams(String travelDay, String travelTime, String startStation, String endStation,
 			List<String> passengerType, List<Integer> passengerQuantity) {
 		
-		// Setup Class
-		Booking b = new Booking(null, travelDay, travelTime, startStation, endStation, passengerType, passengerQuantity, null);
-		
 		// Run Method
-		b.getDiscountedFare();
-	}
-
-	// Get Discount Details
-	// Invalid Parameters
-	@Test (expected = IllegalArgumentException.class)
-	public void testGetDiscountDetailParams() {
-		
-		// Setup Class
-		Booking b = new Booking(null, null, null, null, null, null, null, null);	// Null Details
-		
-		// Run Method
-		b.getDiscountedFare();
+		cf.calculateDiscountedFare(travelDay, travelTime, startStation, endStation, passengerType, passengerQuantity);
 	}
 
 
-	// Make Payment
+	// Calculate Payment
 	// Valid Parameters
+	private Object getValidCalculatePaymentParams() {
+		return new Object[] {
+			new Object[] {10.0, "e-wallet"		, 10.0},
+			new Object[] {10.0, "credit card"	, 10.5},
+			new Object[] {10.0, "online banking",  9.5}
+		};
+	}
+	
 	@Test
-	public void testMakePaymentValid() {
-		// Sample Array
-		List<String> passengerType = new ArrayList<> (Arrays.asList("adult", "child", "senior citizen"));
-		List<Integer> passengerQuantity = new ArrayList<> (Arrays.asList(2, 1, 3));
-		
-		// Setup Class
-		Booking b = new Booking(null, "monday", "0200", "titiwangsa", "batu kentonmen", passengerType, passengerQuantity, "e-wallet");
+	@Parameters (method = "getValidCalculatePaymentParams")
+	public void testCalculatePaymentValid(double totalFare, String paymentMethod, double expectedResult) {
 		
 		// Run Method
-		b.getDiscountedFare();
-		b.makePayment();
-		String result = b.getBookingStatus();
+		cf.setDiscountedFare(totalFare);
+		cf.calculatePayment(paymentMethod);
+		double result = cf.getPaymentAmount();
 		
 		// Compare Result
-		assertEquals(result, "Confirmed Booking");
+		assertEquals(result, expectedResult, 0.01);
 	}
 	
 	// Invalid Parameters
-	private Object getInvalidMakePaymentParams() {
+	private Object getInvalidCalculatePaymentParams() {
 		return new Object[] {
-			new Object[] {null},		// Null Method Method
-			new Object[] {"INVALID"},	// Invalid Payment Method
+			// Total Fare
+			new Object[] { 0.0, "e-wallet"},
+			// Payment Method
+			new Object[] {10.0, null},
+			new Object[] {10.0, "INVALID"}
 		};
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
-	@Parameters (method = "getInvalidMakePaymentParams")
-	public void testMakePaymentInvalid1(String paymentMethod) {
-
-		// Sample Array
-		List<String> passengerType = new ArrayList<> (Arrays.asList("adult", "child", "senior citizen"));
-		List<Integer> passengerQuantity = new ArrayList<> (Arrays.asList(2, 1, 3));
-		
-		// Setup Class
-		Booking b = new Booking(null, "monday", "0200", "titiwangsa", "batu kentonmen", passengerType, passengerQuantity, paymentMethod);
+	@Parameters (method = "getInvalidCalculatePaymentParams")
+	public void testCalculatePaymentParams(double totalFare, String paymentMethod) {
 		
 		// Run Method
-		b.makePayment();
-	}
-	
-	@Test (expected = IllegalArgumentException.class)
-	public void testMakePaymentInvalid2() {
-			
-		// Setup Class
-		Booking b = new Booking(null, null, null, null, null, null, null, "e-wallet");
-			
-		// Run Method
-		b.makePayment();		// Null Fare
+		cf.setDiscountedFare(totalFare);
+		cf.calculatePayment(paymentMethod);
 	}
 }
