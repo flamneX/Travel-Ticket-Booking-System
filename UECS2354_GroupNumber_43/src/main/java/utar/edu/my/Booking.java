@@ -16,12 +16,21 @@ public class Booking {
 	private String bookingStatus = "Not Paid";
 	private String paymentStatus = "Pending";
 	// Classes
-	private CalculateFare cf = new CalculateFare();;
-	private Payment p = new Payment();
+	private CalculateFare cf;
+	private Payment p;
 
 	// Constructors
+	public Booking(CalculateFare cf, Payment p) {
+		this.cf = cf;
+		this.p = p;
+	}
+	
 	public Booking(IUser booker, String travelDay, String travelTime, String startStation, String endStation, List<String> passengerType, 
 			List<Integer> passengerQuantity, String paymentMethod) {
+		// Classes
+		cf = new CalculateFare();
+		p = new Payment();
+		// Data
 		this.booker = booker;
 		this.travelDay = travelDay;
 		this.travelTime = travelTime;
@@ -79,6 +88,6 @@ public class Booking {
 		
 		if (paymentStatus.equals("Paid"))
 			p.emailReceipt();
-			bookingStatus = "Comfirmed Booking";
+			bookingStatus = "Confirmed Booking";
 	}
 }
