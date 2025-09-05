@@ -45,7 +45,7 @@ public class CalculateFare {
 		distance = ri.getRouteDistance(startStation, endStation);
 		
 		// Invalid Distance Range
-		if (distance <= 0 || distance > 30)
+		if (distance < 1 || distance > 30)
 			throw new IllegalArgumentException("Invalid Distance Value");
 		// Valid Distance
 		else {
