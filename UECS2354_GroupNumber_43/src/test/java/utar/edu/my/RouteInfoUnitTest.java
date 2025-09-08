@@ -84,16 +84,26 @@ public class RouteInfoUnitTest {
 	private Object getValidGetRouteDistanceParams() {
 		return new Object[] {
 			// Random Stations
-			new Object[] {"rawang"		, "bandaraya"		, 36.0},
-			new Object[] {"taman melati", "gombak"			,  4.0},
-			new Object[] {"shah alam"	, "masjid jamek"	, 96.5},
-			new Object[] {"sungai buloh", "setiawangsa"		, 38.0},
-			new Object[] {"sentul timur", "batu kentonmen"	, 23.0},
-			new Object[] {"serdang"		, "semenyih sentral", 16.0},
-			new Object[] {"mid valley"	, "kl sentral"		,  5.0},
-			new Object[] {"subang jaya"	, "wangsa maju"		, 38.5},
-			new Object[] {"bangsar"		, "ampang park"		, 77.5},
-			new Object[] {"klcc"		, "kepong sentral"	, 62.0}
+			new Object[] {"kl sentral"		, "mid valley"		,  5.0},
+			new Object[] {"kl sentral"		, "subang jaya"		, 18.0},
+			new Object[] {"subang jaya"		, "shah alam"		,  7.0},
+			new Object[] {"bangsar"			, "kl sentral"		,  2.0},
+			new Object[] {"kl sentral"		, "kepong sentral"	, 12.5},
+			new Object[] {"sentul timur"	, "titiwangsa"		,  3.5},
+			new Object[] {"titiwangsa"		, "ampang park"		,  4.0},
+			new Object[] {"ampang park"		, "klcc"			,  1.0},
+			new Object[] {"klcc"			, "masjid jamek"	,  3.0},
+			new Object[] {"masjid jamek"	, "bandaraya"		,  1.5},
+			new Object[] {"bandaraya"		, "batu kentonmen"	, 10.0},
+			new Object[] {"batu kentonmen"	, "rawang"			, 26.0},
+			new Object[] {"rawang"			, "sungai buloh"	, 12.0},
+			new Object[] {"sungai buloh"	, "kepong sentral"	,  9.5},
+			new Object[] {"serdang"			, "kajang"			, 10.0},
+			new Object[] {"kajang"			, "semenyih sentral",  6.0},
+			new Object[] {"gombak"			, "taman melati"	,  4.0},
+			new Object[] {"taman melati"	, "wangsa maju"		,  2.0},
+			new Object[] {"wangsa maju"		, "setiawangsa"		,  4.5},
+			new Object[] {"setiawangsa"		, "kl sentral"		, 16.0},
 		};
 	}
 

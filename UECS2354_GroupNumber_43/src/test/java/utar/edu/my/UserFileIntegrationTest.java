@@ -19,7 +19,7 @@ public class UserFileIntegrationTest {
 	private User validUser2 = new User("USER002", "TETO", "teto@gmail.com", "0123456789");
 	private User invalidUser = new User("USER001", "MIKU", "miku@gmail.com", "");
 	// File Paths
-	private String validFile = "TestData\\userDummy.txt";
+	private String validFile = "TestData\\user.txt";
 	
 	
 	// Setup For all Test Classes
