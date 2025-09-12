@@ -135,35 +135,65 @@ public class CalculateFareUnitTest {
 	// Valid Parameters
 	private Object getValidCalculateDiscountedFareParams() {
 		// Sample Array List
-		List<String> passengerType = new ArrayList<> (Arrays.asList(new String[] {"VALID", "VALID", "VALID"}));
+		List<String> passengerType1 = new ArrayList<> (Arrays.asList(new String[] {"adult", 			"child", 			"senior citizen"}));
+		List<String> passengerType2 = new ArrayList<> (Arrays.asList(new String[] {"senior citizen", 	"adult", 			"child"}));
+		List<String> passengerType3 = new ArrayList<> (Arrays.asList(new String[] {"student", 			"adult", 			"child"}));
+		List<String> passengerType4 = new ArrayList<> (Arrays.asList(new String[] {"senior citizen", 	"student", 			"child"}));
+		List<String> passengerType5 = new ArrayList<> (Arrays.asList(new String[] {"adult", 			"senior citizen", 	"child"}));
+		
 		List<Integer> passengerQuantity1 = new ArrayList<> (Arrays.asList(new Integer[] {1, 1, 1}));
 		List<Integer> passengerQuantity2 = new ArrayList<> (Arrays.asList(new Integer[] {2, 2, 2}));
+		List<Integer> passengerQuantity3 = new ArrayList<> (Arrays.asList(new Integer[] {1, 2, 3}));
+		List<Integer> passengerQuantity4 = new ArrayList<> (Arrays.asList(new Integer[] {2, 3, 1}));
+		List<Integer> passengerQuantity5 = new ArrayList<> (Arrays.asList(new Integer[] {3, 1, 2}));
 		
-		String[] detail1 = {"Passenger Adjustment : 0.0 %\nDay Time Adjustment  : 0.0 %\nPassenger Amount     : 1\n",
+		String[] detail1 = {
 				"Passenger Adjustment : 0.0 %\nDay Time Adjustment  : 0.0 %\nPassenger Amount     : 1\n",
-				"Passenger Adjustment : 0.0 %\nDay Time Adjustment  : 0.0 %\nPassenger Amount     : 1\n"};
-		String[] detail2 = {"Passenger Adjustment : 0.0 %\nDay Time Adjustment  : + RM 2.00\nPassenger Amount     : 2\n",
-				"Passenger Adjustment : 0.0 %\nDay Time Adjustment  : + RM 2.00\nPassenger Amount     : 2\n",
-				"Passenger Adjustment : 0.0 %\nDay Time Adjustment  : + RM 2.00\nPassenger Amount     : 2\n"};
+				"Passenger Adjustment : -50.0 %\nDay Time Adjustment  : 0.0 %\nPassenger Amount     : 1\n",
+				"Passenger Adjustment : -50.0 %\nDay Time Adjustment  : 0.0 %\nPassenger Amount     : 1\n"
+				};
+		String[] detail2 = {
+				"Passenger Adjustment : -50.0 %\nDay Time Adjustment  : 20.0 %\nPassenger Amount     : 2\n",
+				"Passenger Adjustment : 0.0 %\nDay Time Adjustment  : 20.0 %\nPassenger Amount     : 2\n",
+				"Passenger Adjustment : -50.0 %\nDay Time Adjustment  : 20.0 %\nPassenger Amount     : 2\n"
+				};
+		String[] detail3 = {
+				"Passenger Adjustment : -30.0 %\nDay Time Adjustment  : 0.0 %\nPassenger Amount     : 1\n",
+				"Passenger Adjustment : 0.0 %\nDay Time Adjustment  : 0.0 %\nPassenger Amount     : 2\n",
+				"Passenger Adjustment : -50.0 %\nDay Time Adjustment  : 0.0 %\nPassenger Amount     : 3\n"
+				};
+		String[] detail4 = {
+				"Passenger Adjustment : -50.0 %\nDay Time Adjustment  : -10.0 %\nPassenger Amount     : 2\n",
+				"Passenger Adjustment : -30.0 %\nDay Time Adjustment  : -10.0 %\nPassenger Amount     : 3\n",
+				"Passenger Adjustment : -100.0 %\nDay Time Adjustment  : -10.0 %\nPassenger Amount     : 1\n"
+				};
+		String[] detail5 = {
+				"Passenger Adjustment : 0.0 %\nDay Time Adjustment  : + RM 2.00\nPassenger Amount     : 3\n",
+				"Passenger Adjustment : -50.0 %\nDay Time Adjustment  : + RM 2.00\nPassenger Amount     : 1\n",
+				"Passenger Adjustment : -50.0 %\nDay Time Adjustment  : + RM 2.00\nPassenger Amount     : 2\n"
+				};
 		
 		return new Object[] {
-			new Object[] {passengerType, passengerQuantity1, 10.0, 1.0, 100, 15.0, detail1},
-			new Object[] {passengerType, passengerQuantity2, 10.0, 1.0,   2, 42.0, detail2},
+			new Object[] {passengerType1, passengerQuantity1,  5.0, 1.00, 0.50, 0.50, 100,   4.00, detail1},
+			new Object[] {passengerType2, passengerQuantity2, 10.0, 0.50, 1.00, 0.50, 120,  24.00, detail2},
+			new Object[] {passengerType3, passengerQuantity3, 15.0, 0.70, 1.00, 0.50, 100,  42.00, detail3},
+			new Object[] {passengerType4, passengerQuantity4, 20.0, 0.50, 0.70, 0.00,  90,  41.85, detail4},
+			new Object[] {passengerType5, passengerQuantity5, 25.0, 1.00, 0.50, 0.50,   2, 102.00, detail5},
 		};
 	}
 	
 	@Test
 	@Parameters (method = "getValidCalculateDiscountedFareParams")
 	public void testCalculateDiscountedFareValidFare(List<String> passengerType, List<Integer> passengerQuantity, double distance, 
-			double passengerDiscount, int dayTimeDiscount, double expectedFare, String[] expectedDetail) {
+			double pDiscount1, double pDiscount2, double pDiscount3, int dayTimeDiscount, double expectedFare, String[] expectedDetail) {
 		
 		// Mock Route Distance Output
 		when(riMock.getRouteDistance(anyString(), anyString())).thenReturn(distance);
-		when(faMock.passengerAdjustment(anyString())).thenReturn(passengerDiscount);
+		when(faMock.passengerAdjustment(anyString())).thenReturn(pDiscount1).thenReturn(pDiscount2).thenReturn(pDiscount3);
 		when(faMock.dayTimeAdjustment(anyString(), anyString())).thenReturn(dayTimeDiscount);
 		
 		// Run Method
-		cf.calculateDiscountedFare("VALID", "VALID", "VALID", "VALID", passengerType, passengerQuantity);
+		cf.calculateDiscountedFare("day", "time", "startStation", "endStation", passengerType, passengerQuantity);
 		double resultFare = cf.getDiscountedFare();
 		List<String> adjDetail = cf.getAdjustmentDetails();
 		String[] resultDetail = adjDetail.toArray(new String[adjDetail.size()]);
@@ -204,21 +234,22 @@ public class CalculateFareUnitTest {
 	// Valid Parameters
 	private Object getValidCalculatePaymentParams() {
 		return new Object[] {
-			new Object[] {10.0, 1.0, 10.0},
-			new Object[] {10.0, 0.5,  5.0},
+			new Object[] {10.0, "e-wallet", 		1.00, 10.0},
+			new Object[] {10.0, "credit card", 		1.05, 10.5},
+			new Object[] {10.0, "online banking",	0.95,  9.5},
 		};
 	}
 	
 	@Test
 	@Parameters (method = "getValidCalculatePaymentParams")
-	public void testCalculatePaymentValid(double totalFare, double paymentAdjustment, double expectedResult) {
+	public void testCalculatePaymentValid(double totalFare, String paymentMethod, double paymentAdjustment, double expectedResult) {
 		
 		// Mock Payment Adjustment Output
 		when(faMock.paymentMethodAdjustment(anyString())).thenReturn(paymentAdjustment);
 		
 		// Run Method
 		cf.setDiscountedFare(totalFare);
-		cf.calculatePayment("VALID");
+		cf.calculatePayment(paymentMethod);
 		double result = cf.getPaymentAmount();
 		
 		// Compare Results
@@ -228,16 +259,16 @@ public class CalculateFareUnitTest {
 	// Invalid Parameters
 	private Object getInvalidCalculatePaymentParams() {
 		return new Object[] {
-			new Object[] {0}		// Invalid Total Fare
+			new Object[] {0, "E-Wallet"}		// Invalid Total Fare
 		};
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
 	@Parameters (method = "getInvalidCalculatePaymentParams")
-	public void testCalculatePaymentInvalid(double totalFare) {
+	public void testCalculatePaymentInvalid(double totalFare, String paymentMethod) {
 		
 		// Run Method
 		cf.setDiscountedFare(totalFare);
-		cf.calculatePayment("INVALID");
+		cf.calculatePayment(paymentMethod);
 	}
 }

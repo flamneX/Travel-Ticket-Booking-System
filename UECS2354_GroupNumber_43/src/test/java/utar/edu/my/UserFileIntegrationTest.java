@@ -15,8 +15,11 @@ public class UserFileIntegrationTest {
 	// Mock and Target Class
 	private UserFile uf;
 	// Sample User Objects
-	private User validUser1 = new User("USER001", "MIKU", "miku@gmail.com", "0123456789");
-	private User validUser2 = new User("USER002", "TETO", "teto@gmail.com", "0123456789");
+	private User validUser1 = new User("USER001", "MIKU", "miku@gmail.com"	, "0123456789");
+	private User validUser2 = new User("USER002", "TETO", "teto@gmail.com"	, "0198765432");
+	private User validUser3 = new User("USER003", "GUMI", "gumi@gmail.com"	, "0121892398");
+	private User validUser4 = new User("USER004", "LEN"	, "len@gmail.com"	, "0129850802");
+	private User validUser5 = new User("USER005", "RIN"	, "rin@gmail.com"	, "0123435887");
 	private User invalidUser = new User("USER001", "MIKU", "miku@gmail.com", "");
 	// File Paths
 	private String validFile = "TestData\\user.txt";
@@ -32,11 +35,26 @@ public class UserFileIntegrationTest {
 	
 	// Read & Write User
 	// Valid Parameters
-	@Test
-	public void testReadWriteIntegrationValid() {
+	private Object getReadWriteIntegrationValidParams() {
+		// Sample Array
+		User[] array1 = {validUser1, validUser2};
+		User[] array2 = {validUser2, validUser3};
+		User[] array3 = {validUser3, validUser4};
+		User[] array4 = {validUser4, validUser5};
+		User[] array5 = {validUser5, validUser1};
 		
-		// Sample Data
-		User[] readWriteData = {validUser1, validUser2};
+		return new Object[] {
+			new Object[] {array1},
+			new Object[] {array2},
+			new Object[] {array3},
+			new Object[] {array4},
+			new Object[] {array5}
+		};
+	}
+	
+	@Test
+	@Parameters (method = "getReadWriteIntegrationValidParams")
+	public void testReadWriteIntegrationValid(User[] readWriteData) {
 		
 		// Run Method
 		uf.writeUserToFile(readWriteData, validFile);

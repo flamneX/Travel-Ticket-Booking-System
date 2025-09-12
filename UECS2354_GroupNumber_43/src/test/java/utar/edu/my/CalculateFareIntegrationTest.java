@@ -30,8 +30,11 @@ public class CalculateFareIntegrationTest {
 	// Valid Parameters
 	private Object getValidCalculateTotalFareParams() {
 		return new Object[] {
-			new Object[] {"titiwangsa"	, "batu kentonmen"	, 15.0},
-			new Object[] {"kl sentral"	, "gombak"			, 20.0}
+			new Object[] {"kl sentral"		, "mid valley"		,  2.0},
+			new Object[] {"kl sentral"		, "subang jaya"		, 15.0},
+			new Object[] {"subang jaya"		, "shah alam"		,  5.0},
+			new Object[] {"bangsar"			, "kl sentral"		,  2.0},
+			new Object[] {"kl sentral"		, "kepong sentral"	, 10.0}
 		};
 	}
 	
@@ -77,20 +80,51 @@ public class CalculateFareIntegrationTest {
 	// Calculate Discounted Fare
 	// Valid Parameters
 	private Object getValidCalculateDiscountedFareParams() {
-		// Sample Array
-		List<String> passengerType = new ArrayList<> (Arrays.asList("adult", "child", "senior citizen"));
-		List<Integer> passengerQuantity = new ArrayList<> (Arrays.asList(2, 1, 3));
+		// Sample Array List
+		List<String> passengerType1 = new ArrayList<> (Arrays.asList(new String[] {"adult",				"child", 			"senior citizen"}));
+		List<String> passengerType2 = new ArrayList<> (Arrays.asList(new String[] {"senior citizen", 	"adult", 			"child"}));
+		List<String> passengerType3 = new ArrayList<> (Arrays.asList(new String[] {"student", 			"adult", 			"child"}));
+		List<String> passengerType4 = new ArrayList<> (Arrays.asList(new String[] {"senior citizen", 	"student", 			"child"}));
+		List<String> passengerType5 = new ArrayList<> (Arrays.asList(new String[] {"adult", 			"senior citizen", 	"child"}));
 		
-		String[] detail1 = {"Passenger Adjustment : 0.0 %\nDay Time Adjustment  : 0.0 %\nPassenger Amount     : 2\n",
-				"Passenger Adjustment : 50.0 %\nDay Time Adjustment  : 0.0 %\nPassenger Amount     : 1\n",
-				"Passenger Adjustment : 50.0 %\nDay Time Adjustment  : 0.0 %\nPassenger Amount     : 3\n"};
-		String[] detail2 = {"Passenger Adjustment : 0.0 %\nDay Time Adjustment  : + RM 2.00\nPassenger Amount     : 2\n",
-				"Passenger Adjustment : 50.0 %\nDay Time Adjustment  : + RM 2.00\nPassenger Amount     : 1\n",
-				"Passenger Adjustment : 50.0 %\nDay Time Adjustment  : + RM 2.00\nPassenger Amount     : 3\n"};
+		List<Integer> passengerQuantity1 = new ArrayList<> (Arrays.asList(new Integer[] {1, 1, 1}));
+		List<Integer> passengerQuantity2 = new ArrayList<> (Arrays.asList(new Integer[] {2, 2, 2}));
+		List<Integer> passengerQuantity3 = new ArrayList<> (Arrays.asList(new Integer[] {1, 2, 3}));
+		List<Integer> passengerQuantity4 = new ArrayList<> (Arrays.asList(new Integer[] {2, 3, 1}));
+		List<Integer> passengerQuantity5 = new ArrayList<> (Arrays.asList(new Integer[] {3, 1, 2}));
+		
+		String[] detail1 = {
+				"Passenger Adjustment : 0.0 %\nDay Time Adjustment  : 0.0 %\nPassenger Amount     : 1\n",
+				"Passenger Adjustment : -50.0 %\nDay Time Adjustment  : 0.0 %\nPassenger Amount     : 1\n",
+				"Passenger Adjustment : -50.0 %\nDay Time Adjustment  : 0.0 %\nPassenger Amount     : 1\n"
+				};
+		String[] detail2 = {
+				"Passenger Adjustment : -50.0 %\nDay Time Adjustment  : 20.0 %\nPassenger Amount     : 2\n",
+				"Passenger Adjustment : 0.0 %\nDay Time Adjustment  : 20.0 %\nPassenger Amount     : 2\n",
+				"Passenger Adjustment : -50.0 %\nDay Time Adjustment  : 20.0 %\nPassenger Amount     : 2\n"
+				};
+		String[] detail3 = {
+				"Passenger Adjustment : -30.0 %\nDay Time Adjustment  : 0.0 %\nPassenger Amount     : 1\n",
+				"Passenger Adjustment : 0.0 %\nDay Time Adjustment  : 0.0 %\nPassenger Amount     : 2\n",
+				"Passenger Adjustment : -50.0 %\nDay Time Adjustment  : 0.0 %\nPassenger Amount     : 3\n"
+				};
+		String[] detail4 = {
+				"Passenger Adjustment : -50.0 %\nDay Time Adjustment  : -10.0 %\nPassenger Amount     : 2\n",
+				"Passenger Adjustment : -30.0 %\nDay Time Adjustment  : -10.0 %\nPassenger Amount     : 3\n",
+				"Passenger Adjustment : -100.0 %\nDay Time Adjustment  : -10.0 %\nPassenger Amount     : 1\n"
+				};
+		String[] detail5 = {
+				"Passenger Adjustment : 0.0 %\nDay Time Adjustment  : + RM 2.00\nPassenger Amount     : 3\n",
+				"Passenger Adjustment : -50.0 %\nDay Time Adjustment  : + RM 2.00\nPassenger Amount     : 1\n",
+				"Passenger Adjustment : -50.0 %\nDay Time Adjustment  : + RM 2.00\nPassenger Amount     : 2\n"
+				};
 		
 		return new Object[] {
-			new Object[] {"monday", "0200", "titiwangsa", "batu kentonmen"	, passengerType, passengerQuantity, 60.0, detail1},
-			new Object[] {"sunday", "2300", "kl sentral", "gombak"			, passengerType, passengerQuantity, 92.0, detail2},
+			new Object[] {"monday"		, "0300",	"kl sentral"	, "mid valley"	  	, passengerType1, passengerQuantity1,  4.00, detail1},
+			new Object[] {"wednesday"	, "0800",	"kl sentral"	, "subang jaya"		, passengerType2, passengerQuantity2, 72.00, detail2},
+			new Object[] {"friday"		, "1300",	"subang jaya"	, "shah alam"  		, passengerType3, passengerQuantity3, 21.00, detail3},
+			new Object[] {"saturday"	, "1850",	"bangsar"		, "kl sentral"		, passengerType4, passengerQuantity4,  5.58, detail4},	
+			new Object[] {"sunday"		, "2200",	"kl sentral"	, "kepong sentral"	, passengerType5, passengerQuantity5, 57.00, detail5}
 		};
 	}
 	
@@ -162,9 +196,15 @@ public class CalculateFareIntegrationTest {
 	// Valid Parameters
 	private Object getValidCalculatePaymentParams() {
 		return new Object[] {
-			new Object[] {10.0, "e-wallet"		, 10.0},
-			new Object[] {10.0, "credit card"	, 10.5},
-			new Object[] {10.0, "online banking",  9.5}
+			// Mock E-Wallet
+			new Object[] {10.0, "E-WALLET", 		10.0},
+			new Object[] {20.0, "e-wallet", 		20.0},
+			// Mock Credit Card
+			new Object[] {10.0, "CREDIT CARD", 		10.5},
+			new Object[] {20.0, "credit card", 		21.0},
+			// Mock Online Banking
+			new Object[] {10.0, "ONLINE BANKING", 	 9.5},
+			new Object[] {20.0, "online banking", 	19.0}
 		};
 	}
 	

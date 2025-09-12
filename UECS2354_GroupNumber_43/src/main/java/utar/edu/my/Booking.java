@@ -51,6 +51,36 @@ public class Booking {
 		return paymentStatus;
 	}
 	
+	
+	// Set Methods
+	public void setTravelDay(String travelDay) {
+		this.travelDay = travelDay;
+	}
+
+	public void setTravelTime(String travelTime) {
+		this.travelTime = travelTime;
+	}
+	
+	public void setStartStation(String startStation) {
+		this.startStation = startStation;
+	}
+	
+	public void setEndStation(String endStation) {
+		this.endStation = endStation;
+	}
+	
+	public void setPassengerType(List<String> passengerType) {
+		this.passengerType = passengerType;
+	}
+	
+	public void setPassengerQuantity(List<Integer> passengerQuantity) {
+		this.passengerQuantity = passengerQuantity;
+	}
+	
+	public void setPaymentMethod(String paymentMethod) {
+		this.paymentMethod = paymentMethod;
+	}
+	
 
 	// Calculate Total Fare For One Person
 	public double getTotalFare() {

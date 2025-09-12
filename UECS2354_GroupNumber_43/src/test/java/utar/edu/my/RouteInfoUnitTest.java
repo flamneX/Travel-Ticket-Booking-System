@@ -26,7 +26,7 @@ public class RouteInfoUnitTest {
 	// Valid Parameters
 	private Object getValidStationNameParams() {
 		return new Object[] {
-			new Object[] {"kl sentral"		, "kl sentral"		}, 
+			new Object[] {"kl sentral"		, "kl sentral"		},
 			new Object[] {"mid valley"		, "mid valley"		}, 
 			new Object[] {"subang jaya"		, "subang jaya"		}, 
 			new Object[] {"shah alam"		, "shah alam"		},

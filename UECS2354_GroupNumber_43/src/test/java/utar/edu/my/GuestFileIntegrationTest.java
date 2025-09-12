@@ -17,6 +17,9 @@ public class GuestFileIntegrationTest {
 	// Sample Guest Objects
 	private Guest validGuest1 = new Guest("MIKU", "miku@gmail.com", "0123456789");
 	private Guest validGuest2 = new Guest("TETO", "teto@gmail.com", "0123456789");
+	private Guest validGuest3 = new Guest("GUMI", "gumi@gmail.com"	, "0121892398");
+	private Guest validGuest4 = new Guest("LEN"	, "len@gmail.com"	, "0129850802");
+	private Guest validGuest5 = new Guest("RIN"	, "rin@gmail.com"	, "0123435887");
 	private Guest invalidGuest = new Guest("MIKU", "miku@gmail.com", "");
 	// File Paths
 	private String validFile = "TestData\\guestDummy.txt";
@@ -32,11 +35,26 @@ public class GuestFileIntegrationTest {
 
 	// Read & Write Guest
 	// Valid Parameters
-	@Test
-	public void testReadWriteIntegrationValid() {
+	private Object getReadWriteIntegrationValidParams() {
+		// Sample Array
+		Guest[] array1 = {validGuest1, validGuest2};
+		Guest[] array2 = {validGuest2, validGuest3};
+		Guest[] array3 = {validGuest3, validGuest4};
+		Guest[] array4 = {validGuest4, validGuest5};
+		Guest[] array5 = {validGuest5, validGuest1};
 		
-		// Sample Data
-		Guest[] readWriteData = {validGuest1, validGuest2};
+		return new Object[] {
+			new Object[] {array1},
+			new Object[] {array2},
+			new Object[] {array3},
+			new Object[] {array4},
+			new Object[] {array5}
+		};
+	}
+	
+	@Test
+	@Parameters (method = "getReadWriteIntegrationValidParams")
+	public void testReadWriteIntegrationValid(Guest[] readWriteData) {
 		
 		// Run Method
 		gf.writeGuestToFile(readWriteData, validFile);

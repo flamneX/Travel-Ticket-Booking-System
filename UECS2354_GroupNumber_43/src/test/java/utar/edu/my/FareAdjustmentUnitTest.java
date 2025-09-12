@@ -73,16 +73,16 @@ public class FareAdjustmentUnitTest {
 	private Object getValidPassengerAdjustmentParamsEP() {
 		return new Object[] {
 			// ADULT
-			new Object[] {3.0, "adult", 1.0},
+			new Object[] {3.0, "ADULT", 1.0},
 			new Object[] {8.0, "adult", 1.0},
 			// SENIOR CITIZEN
-			new Object[] {3.0, "senior citizen", 0.5},
+			new Object[] {3.0, "SENIOR CITIZEN", 0.5},
 			new Object[] {8.0, "senior citizen", 0.5},
 			// Student
-			new Object[] {3.0, "student", 0.7},
+			new Object[] {3.0, "STUDENT", 0.7},
 			new Object[] {8.0, "student", 0.7},
 			// Child
-			new Object[] {3.0, "child", 0.0},
+			new Object[] {3.0, "CHILD", 0.0},
 			new Object[] {8.0, "child", 0.5}
 		};
 	}
@@ -240,8 +240,10 @@ public class FareAdjustmentUnitTest {
 	// Valid Parameters
 	private Object getValidTravelTimeParams() {
 		return new Object[] {
-			new Object[] {"0000", 0},
+			new Object[] {"0000",   0},
+			new Object[] {"0600",  600},
 			new Object[] {"1200", 1200},
+			new Object[] {"1800", 1800},
 			new Object[] {"2359", 2359}
 		};
 	}
@@ -285,16 +287,16 @@ public class FareAdjustmentUnitTest {
 			new Object[] {"monday", "0300", 100},
 			new Object[] {"monday", "0800", 120},
 			new Object[] {"monday", "1300", 100},
-			new Object[] {"monday", "1850", 120},
-			new Object[] {"monday", "2100", 100},
-			new Object[] {"monday", "2300", 2},
+			new Object[] {"MONDAY", "1850", 120},
+			new Object[] {"MONDAY", "2100", 100},
+			new Object[] {"MONDAY", "2300", 2},
 			// Weekend - Saturday
 			new Object[] {"saturday", "0300", 90},
 			new Object[] {"saturday", "0800", 90},
 			new Object[] {"saturday", "1300", 90},
-			new Object[] {"saturday", "1850", 90},
-			new Object[] {"saturday", "2100", 90},
-			new Object[] {"saturday", "2300", 2}
+			new Object[] {"SATURDAY", "1850", 90},
+			new Object[] {"SATURDAY", "2100", 90},
+			new Object[] {"SATURDAY", "2300", 2}
 		};
 	}
 
@@ -342,12 +344,12 @@ public class FareAdjustmentUnitTest {
 			new Object[] {"monday", "0930", 120},
 			new Object[] {"monday", "0931", 100},
 			new Object[] {"monday", "1659", 100},
-			new Object[] {"monday", "1700", 120},
-			new Object[] {"monday", "2000", 120},
-			new Object[] {"monday", "2001", 100},
-			new Object[] {"monday", "2159", 100},
-			new Object[] {"monday", "2200", 2},
-			new Object[] {"monday", "2359", 2},
+			new Object[] {"MONDAY", "1700", 120},
+			new Object[] {"MONDAY", "2000", 120},
+			new Object[] {"MONDAY", "2001", 100},
+			new Object[] {"MONDAY", "2159", 100},
+			new Object[] {"MONDAY", "2200", 2},
+			new Object[] {"MONDAY", "2359", 2},
 			// Weekend - Saturday
 			new Object[] {"saturday", "0000", 90},
 			new Object[] {"saturday", "0629", 90},
@@ -355,12 +357,12 @@ public class FareAdjustmentUnitTest {
 			new Object[] {"saturday", "0930", 90},
 			new Object[] {"saturday", "0931", 90},
 			new Object[] {"saturday", "1659", 90},
-			new Object[] {"saturday", "1700", 90},
-			new Object[] {"saturday", "2000", 90},
-			new Object[] {"saturday", "2001", 90},
-			new Object[] {"saturday", "2159", 90},
-			new Object[] {"saturday", "2200", 2},
-			new Object[] {"saturday", "2359", 2},
+			new Object[] {"SATURDAY", "1700", 90},
+			new Object[] {"SATURDAY", "2000", 90},
+			new Object[] {"SATURDAY", "2001", 90},
+			new Object[] {"SATURDAY", "2159", 90},
+			new Object[] {"SATURDAY", "2200", 2},
+			new Object[] {"SATURDAY", "2359", 2},
 		};
 	}
 	

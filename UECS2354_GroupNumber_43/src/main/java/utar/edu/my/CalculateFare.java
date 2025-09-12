@@ -113,7 +113,7 @@ public class CalculateFare {
 			// Calculate Fare By Passenger Type
 			double passengerDiscount = fa.passengerAdjustment(passengerType.get(i));
 			fare *= passengerDiscount;
-			detail += "Passenger Adjustment : " + ((1.0 - passengerDiscount) * 100) + " %\n";
+			detail += "Passenger Adjustment : " + Math.ceil((passengerDiscount - 1) * 100) + " %\n";
 			
 			// Calculate Fare By Day & Time
 			double dayTimeDiscount = fa.dayTimeAdjustment(travelDay, travelTime);

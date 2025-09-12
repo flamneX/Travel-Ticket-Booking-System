@@ -1,2 +1,2 @@
+RIN;rin@gmail.com;0123435887
 MIKU;miku@gmail.com;0123456789
-TETO;teto@gmail.com;0123456789
