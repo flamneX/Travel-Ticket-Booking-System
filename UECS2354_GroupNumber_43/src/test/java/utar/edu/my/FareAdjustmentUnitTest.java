@@ -106,8 +106,8 @@ public class FareAdjustmentUnitTest {
 			new Object[] {-5.0, "adult"},		// Invalid Distance Range
 			new Object[] {35.0, "adult"},
 			// Passenger Type
-			new Object[] {1.0, null},			// Null Passenger Type
-			new Object[] {1.0, "INVALID"}		// Invalid Passenger Type
+			new Object[] {3.0, null},			// Null Passenger Type
+			new Object[] {3.0, "INVALID"}		// Invalid Passenger Type
 		};
 	}
 	
