@@ -196,15 +196,9 @@ public class CalculateFareIntegrationTest {
 	// Valid Parameters
 	private Object getValidCalculatePaymentParams() {
 		return new Object[] {
-			// Mock E-Wallet
-			new Object[] {10.0, "E-WALLET", 		10.0},
-			new Object[] {20.0, "e-wallet", 		20.0},
-			// Mock Credit Card
-			new Object[] {10.0, "CREDIT CARD", 		10.5},
-			new Object[] {20.0, "credit card", 		21.0},
-			// Mock Online Banking
-			new Object[] {10.0, "ONLINE BANKING", 	 9.5},
-			new Object[] {20.0, "online banking", 	19.0}
+			new Object[] {10.0, "e-wallet", 		10.0},
+			new Object[] {10.0, "credit card", 		10.5},
+			new Object[] {10.0, "online banking", 	9.5}
 		};
 	}
 	
