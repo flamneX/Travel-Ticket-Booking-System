@@ -1,6 +1,5 @@
 # Travel-Ticket-Booking-System
 The partial implementation of a travel ticket booking system that includes unit & integration tests.
-- [Prerequites] (## Pre-requisites)
 
 ## Pre-requisites
 * Java 18.0
